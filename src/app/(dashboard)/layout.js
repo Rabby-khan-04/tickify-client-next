@@ -1,0 +1,18 @@
+import DashboardHeader from "@/components/dashboard/dashboardHeader/DashboardHeader";
+import DashboardNav from "@/components/dashboard/dashboardNav/DashboardNav";
+
+const DashboardLayout = ({ children }) => {
+  return (
+    <>
+      <DashboardHeader />
+      <main className="flex h-[calc(100vh-73px)]">
+        <DashboardNav />
+        <section className="flex-1 p-6 md:p-10 min-w-0 overflow-y-auto">
+          {children}
+        </section>
+      </main>
+    </>
+  );
+};
+
+export default DashboardLayout;

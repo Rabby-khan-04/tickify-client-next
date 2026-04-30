@@ -59,8 +59,12 @@ export const subscribeAuth = (callback) => {
     }
 
     try {
-      await axiosPublic.post("/auth/jwt", { email: user.email });
+      // 1. create backend session / cookie
+      await axiosPublic.post("/auth/jwt", {
+        email: user.email,
+      });
 
+      // 2. fetch user AFTER cookie is set
       const res = await axiosSecure.get("/users/me");
 
       const userInfo = res?.data?.data;
