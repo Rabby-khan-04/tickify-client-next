@@ -12,35 +12,28 @@ let isRefreshing = false;
 let failedQueue = [];
 
 const processQueue = (error) => {
-  failedQueue.forEach((promise) => {
-    if (error) {
-      promise.reject(error);
-    } else {
-      promise.resolve();
-    }
+  failedQueue.forEach((p) => {
+    if (error) p.reject(error);
+    else p.resolve();
   });
 
   failedQueue = [];
+  failedQueue = [];
 };
 
-// Request interceptor (attach token if you use one)
-axiosSecure.interceptors.request.use(
-  (config) => {
-    const token =
-      typeof window !== "undefined"
-        ? localStorage.getItem("accessToken")
-        : null;
+// attach token (optional fallback)
+axiosSecure.interceptors.request.use((config) => {
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("accessToken") : null;
 
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
 
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+  return config;
+});
 
-// Response interceptor (refresh token flow)
+// response interceptor
 axiosSecure.interceptors.response.use(
   (res) => res,
   async (error) => {
@@ -48,12 +41,12 @@ axiosSecure.interceptors.response.use(
 
     if (!originalRequest) return Promise.reject(error);
 
-    // Forbidden → handle logout if needed
+    // 403 → just reject
     if (error.response?.status === 403) {
       return Promise.reject(error);
     }
 
-    // Unauthorized → refresh token
+    // 401 → try refresh
     if (error.response?.status === 401 && !originalRequest._retry) {
       if (isRefreshing) {
         return new Promise((resolve, reject) => {
@@ -65,12 +58,24 @@ axiosSecure.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        await axiosPublic.post("/auth/refresh-access-token");
+        // IMPORTANT: use public axios
+        await axiosPublic.post(
+          "/auth/refresh-access-token",
+          {},
+          {
+            withCredentials: true,
+          },
+        );
 
         processQueue(null);
+
         return axiosSecure(originalRequest);
       } catch (err) {
         processQueue(err);
+
+        // cleanup auth
+        localStorage.removeItem("accessToken");
+
         return Promise.reject(err);
       } finally {
         isRefreshing = false;
