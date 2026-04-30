@@ -10,7 +10,6 @@ export const fetchUpcomingMovies = async () => {
 
     const data = await res.json();
 
-    console.log(data);
     return data?.data || [];
   } catch (error) {
     console.log("ERROR While Fetching Upcoming Movies:", error);
@@ -43,3 +42,13 @@ export async function getFavorites() {
     console.log(`ERROR While Fetching Favorites: ${error}`);
   }
 }
+
+export const fetchAllMovies = async (page, limit) => {
+  const res = await axiosSecure.get("/movies", {
+    params: { page, limit },
+  });
+
+  console.log("from", res);
+
+  return res.data?.data;
+};

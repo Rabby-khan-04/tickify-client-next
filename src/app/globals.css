@@ -39,7 +39,7 @@ body {
   @apply px-[5%] max-w-full w-full;
 }
 .btn {
-  @apply bg-primary border border-primary text-white font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer text-center;
+  @apply bg-primary border border-primary text-dark font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer text-center;
 }
 .btn-pagination {
   @apply border border-primary font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer text-center;
