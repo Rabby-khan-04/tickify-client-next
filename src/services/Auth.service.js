@@ -25,8 +25,22 @@ export const updateUserInfo = (info) => {
 };
 
 export const logoutUser = async () => {
-  await signOut(auth);
-  await axiosPublic.post("/auth/logout");
+  signOut(auth)
+    .then(() => {
+      axiosPublic
+        .post("/auth/logout")
+        .then(() => {
+          localStorage.removeItem("access-token");
+          toast.success("User logged out!!");
+        })
+        .catch((err) => {
+          console.log(`Error in singout: ${err}`);
+        });
+    })
+    .catch((err) => {
+      toast.error("Something went wrong!!");
+      console.log(`Error In Signout: ${err}`);
+    });
 };
 
 // -------------------- AUTH LISTENER --------------------
