@@ -31,6 +31,7 @@ const Login = () => {
       await loginUser(data.email, data.password);
 
       toast.success("Successfully logged in!");
+      console.log("Logging user");
       router.push(from);
     } catch (err) {
       console.log(`Login ERROR: ${err}`);

@@ -9,6 +9,7 @@ import {
 import auth from "@/lib/firebase/firebase.config";
 import axiosPublic from "@/lib/axios/axiosPublic";
 import axiosSecure from "@/lib/axios/axiosSecure";
+import toast from "react-hot-toast";
 
 // -------------------- AUTH ACTIONS --------------------
 
@@ -47,6 +48,15 @@ export const logoutUser = async () => {
 
 export const subscribeAuth = (callback) => {
   return onAuthStateChanged(auth, async (user) => {
+    // 👇 Always signal "still resolving" at the start
+    callback({
+      authUser: null,
+      userInfo: null,
+      isAdmin: false,
+      isAuthLoading: true, // <-- key change
+      isUserInfoLoading: true,
+    });
+
     if (!user) {
       callback({
         authUser: null,
@@ -59,14 +69,8 @@ export const subscribeAuth = (callback) => {
     }
 
     try {
-      // 1. create backend session / cookie
-      await axiosPublic.post("/auth/jwt", {
-        email: user.email,
-      });
-
-      // 2. fetch user AFTER cookie is set
+      await axiosPublic.post("/auth/jwt", { email: user.email });
       const res = await axiosSecure.get("/users/me");
-
       const userInfo = res?.data?.data;
 
       callback({
@@ -78,7 +82,6 @@ export const subscribeAuth = (callback) => {
       });
     } catch (err) {
       console.log("Auth sync error:", err);
-
       callback({
         authUser: user,
         userInfo: null,

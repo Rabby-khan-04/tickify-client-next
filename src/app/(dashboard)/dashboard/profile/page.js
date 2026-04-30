@@ -1,4 +1,4 @@
-const Profile = () => {
+const ProfilePage = () => {
   return (
     <div>
       <h1>This is Profile component</h1>
@@ -6,4 +6,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfilePage;
