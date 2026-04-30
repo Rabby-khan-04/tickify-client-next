@@ -35,39 +35,37 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-@layer components {
-  .container-fluid {
-    @apply px-[5%] max-w-full w-full;
-  }
-  .btn {
-    @apply bg-primary border border-primary text-white font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer text-center;
-  }
-  .btn-pagination {
-    @apply border border-primary font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer text-center;
-  }
-  .btn-alt {
-    @apply bg-transparent border border-white text-white font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer;
-  }
-  .btn-gradient {
-    @apply text-white font-medium text-base md:text-lg py-2 md:py-3 px-5 md:px-6 rounded-full inline-flex items-center gap-1 bg-gradient-to-r from-primary via-primary to-primary-light w-auto border border-transparent cursor-pointer;
-  }
-  .btn-ghost {
-    @apply text-white font-medium text-base md:text-lg py-2 md:py-3 px-5 md:px-6 rounded-full inline-flex items-center gap-1 bg-transparent w-auto border border-white cursor-pointer;
-  }
-  .btn-gradient-sm {
-    @apply text-white font-medium text-sm py-1 md:py-2 px-3 md:px-4 rounded-full inline-flex items-center gap-1 bg-gradient-to-r from-primary via-primary to-primary-light w-auto border border-transparent cursor-pointer;
-  }
-  .btn-ghost-sm {
-    @apply text-white font-medium  text-sm py-1 md:py-2 px-3 md:px-4 rounded-full inline-flex items-center gap-1 bg-transparent w-auto border border-white cursor-pointer;
-  }
-  .swiper-pagination-bullet-active {
-    @apply bg-primary;
-  }
+.container-fluid {
+  @apply px-[5%] max-w-full w-full;
+}
+.btn {
+  @apply bg-primary border border-primary text-white font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer text-center;
+}
+.btn-pagination {
+  @apply border border-primary font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer text-center;
+}
+.btn-alt {
+  @apply bg-transparent border border-white text-white font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer;
+}
+.btn-gradient {
+  @apply text-white font-medium text-base md:text-lg py-2 md:py-3 px-5 md:px-6 rounded-full inline-flex items-center gap-1 bg-gradient-to-r from-primary via-primary to-primary-light w-auto border border-transparent cursor-pointer;
+}
+.btn-ghost {
+  @apply text-white font-medium text-base md:text-lg py-2 md:py-3 px-5 md:px-6 rounded-full inline-flex items-center gap-1 bg-transparent w-auto border border-white cursor-pointer;
+}
+.btn-gradient-sm {
+  @apply text-white font-medium text-sm py-1 md:py-2 px-3 md:px-4 rounded-full inline-flex items-center gap-1 bg-gradient-to-r from-primary via-primary to-primary-light w-auto border border-transparent cursor-pointer;
+}
+.btn-ghost-sm {
+  @apply text-white font-medium  text-sm py-1 md:py-2 px-3 md:px-4 rounded-full inline-flex items-center gap-1 bg-transparent w-auto border border-white cursor-pointer;
+}
+.swiper-pagination-bullet-active {
+  @apply bg-primary;
+}
 
-  .movie-badge {
-    @apply border border-primary inline-block w-auto absolute top-6 right-6 text-sm py-1 px-3 rounded-full bg-primary/40 backdrop-blur text-primary font-bold;
-  }
-  .p-top {
-    @apply pt-16 md:pt-20 lg:pt-32;
-  }
+.movie-badge {
+  @apply border border-primary inline-block w-auto absolute top-6 right-6 text-sm py-1 px-3 rounded-full bg-primary/40 backdrop-blur text-primary font-bold;
+}
+.p-top {
+  @apply pt-16 md:pt-20 lg:pt-32;
 }
