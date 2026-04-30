@@ -80,7 +80,7 @@ const ManageMovies = () => {
                         src={`${process.env.NEXT_PUBLIC_TMDB_PATH}${movie.poster_path}`}
                         width={120}
                         height={180}
-                        className="lg:h-32 inline-block rounded-md"
+                        className="lg:h-32 inline-block rounded-md object-cover"
                         alt={movie.title}
                       />
                     </td>
