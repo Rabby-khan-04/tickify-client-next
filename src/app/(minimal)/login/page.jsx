@@ -10,9 +10,11 @@ import toast from "react-hot-toast";
 import { loginUser } from "@/services/Auth.service";
 import BlurCircle from "@/components/shared/blurCircle/BlurCircle";
 import SectionTitle from "@/components/shared/sectionTitle/SectionTitle";
+import useAuthStore from "@/store/authStore";
 
 const Login = () => {
   const [toggle, setToggle] = useState(false);
+  const { userInfo } = useAuthStore();
 
   const router = useRouter();
   const searchParams = useSearchParams();

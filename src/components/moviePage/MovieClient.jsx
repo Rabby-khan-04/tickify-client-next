@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import Image from "next/image";
 import Link from "next/link";
 import toast from "react-hot-toast";
-
 import { Calendar, Earth, PartyPopper, Play, Star, Ticket } from "lucide-react";
 import { FaClock, FaHeart, FaRegHeart } from "react-icons/fa6";
-
+import { useQueryClient } from "@tanstack/react-query"; // ← add this
 import axiosPublic from "@/lib/axios/axiosPublic";
 import BlurCircle from "../shared/blurCircle/BlurCircle";
 import SectionTitle from "../shared/sectionTitle/SectionTitle";
@@ -19,33 +17,17 @@ import {
 } from "@/utils/dateFormatter";
 import useAuthStore from "@/store/authStore";
 import useFavorites from "@/hooks/useFavorites";
-import Spinner from "../shared/loader/Spinner";
 
 const MovieClient = ({ movieDetails, showData }) => {
-  const { data: favorites = [], isLoading: isFavoritesLoading } =
-    useFavorites();
-  const favoritesSet = new Set(favorites || []);
-  const isFavorite = favoritesSet.has(movieDetails?._id);
+  const queryClient = useQueryClient(); // ← add this
+  const { data: favorites = [] } = useFavorites();
+
   const { authUser } = useAuthStore();
 
   const _id = movieDetails?._id;
 
-  if (isFavoritesLoading) return <Spinner />;
-
-  const addFavorite = async () => {
-    if (!authUser) {
-      toast.error("Please login to add favorites");
-      return;
-    }
-
-    try {
-      const res = await axiosPublic.post(`/users/favorite/${_id}`);
-      toast.success(res.data.message);
-      setIsFavorite((prev) => !prev);
-    } catch (err) {
-      toast.error("Something went wrong");
-    }
-  };
+  const favoriteIds = new Set(favorites.map((fav) => fav._id));
+  const isFavorite = favoriteIds.has(_id);
 
   if (!movieDetails) return null;
 
@@ -63,9 +45,23 @@ const MovieClient = ({ movieDetails, showData }) => {
     genres = [],
   } = movieDetails;
 
-  const noShow = () => {
-    toast("No show available", { icon: "⚠️" });
+  const addFavorite = async () => {
+    if (!authUser) {
+      toast.error("Please login to add favorites");
+      return;
+    }
+
+    try {
+      const res = await axiosPublic.post(`/users/favorite/${_id}`);
+      toast.success(res.data.message);
+      // Invalidate so useFavorites refetches → isFavorite updates automatically
+      queryClient.invalidateQueries({ queryKey: ["favorites"] });
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
   };
+
+  const noShow = () => toast("No show available", { icon: "⚠️" });
 
   return (
     <>
@@ -96,12 +92,10 @@ const MovieClient = ({ movieDetails, showData }) => {
                 <FaClock />
                 {runtimeFormater(runtime)}
               </div>
-
               <div className="flex items-center gap-1">
                 <Calendar />
                 {formatYear(release_date)}
               </div>
-
               <div className="flex gap-2">
                 {genres.map((g) => (
                   <span key={g._id}>• {g.name}</span>
@@ -129,7 +123,7 @@ const MovieClient = ({ movieDetails, showData }) => {
 
               <button
                 onClick={addFavorite}
-                className="border border-border/80 p-2 rounded-full"
+                className="border border-border/80 p-2 rounded-full cursor-pointer"
               >
                 {isFavorite ? (
                   <FaHeart className="text-red-500" />
@@ -150,7 +144,6 @@ const MovieClient = ({ movieDetails, showData }) => {
         <div className="container-fluid flex gap-6 max-lg:flex-col">
           <div className="flex-1">
             <SectionTitle title="Your Favorite Cast" />
-
             <div className="flex flex-wrap gap-3">
               {casts.map((cast) => (
                 <div key={cast.id} className="text-center">
@@ -169,23 +162,19 @@ const MovieClient = ({ movieDetails, showData }) => {
 
           <div className="w-full lg:w-96 bg-primary/10 border border-primary rounded-2xl p-6 text-white space-y-4">
             <h2 className="text-xl font-semibold">More Details</h2>
-
             <div className="space-y-4 text-white/80">
               <div className="flex items-center gap-1">
                 <Earth />
                 <p>Language: {original_language}</p>
               </div>
-
               <div className="flex items-center gap-1">
                 <Star />
                 <p>Rating: {vote_average}</p>
               </div>
-
               <div className="flex items-center gap-1">
                 <Calendar />
                 <p>Release: {formatFullDate(release_date)}</p>
               </div>
-
               <div className="flex items-center gap-1">
                 <PartyPopper />
                 <p>Popularity: {popularity.toFixed(2)}</p>

@@ -37,6 +37,8 @@ export async function getFavorites() {
   try {
     const res = await axiosPublic.get("/users/favorites");
 
+    console.log("from hook", res);
+
     return res?.data?.data || [];
   } catch (error) {
     console.log(`ERROR While Fetching Favorites: ${error}`);

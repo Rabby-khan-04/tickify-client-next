@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 const useFavorites = () => {
   return useQuery({
     queryKey: ["favorites"],
-    queryFn: getFavorites(),
+    queryFn: getFavorites,
   });
 };
 

@@ -123,7 +123,7 @@ const Header = () => {
           {authUser ? (
             <>
               <Link
-                href="/favorite"
+                href="/dashboard/profile/favorites"
                 className="inline-block border border-border/80 p-2 rounded-full max-md:hidden"
               >
                 <Heart className="h-5 w-5 text-white" />
