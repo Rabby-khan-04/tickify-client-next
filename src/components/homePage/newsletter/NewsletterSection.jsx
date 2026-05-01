@@ -42,7 +42,7 @@ const NewsletterSection = () => {
 
   return (
     <section
-      className="p-yaxis relative z-30 overflow-x-hidden"
+      className="p-yaxis relative z-30 overflow-x-hidden bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${seatImage.src})` }}
     >
       <BlurCircle top="100px" right="-200px" />

@@ -5,7 +5,7 @@ const MainSectionTitle = ({ subtitle = "", title = "", description = "" }) => {
         {subtitle}
       </span>
 
-      <h2 className="font-bold text-5xl tracking-wider text-white text-center mb-2">
+      <h2 className="font-bold text-[clamp(1.6rem,3vw,2rem)] tracking-wider text-white text-center mb-2">
         {title}
       </h2>
 

@@ -68,6 +68,18 @@ const Header = () => {
       <li>
         <Link
           className={`inline-block px-3 ${
+            pathname === "/how-it-works" ? "text-primary" : ""
+          }`}
+          href="/how-it-works"
+          onClick={closeMenuAndDropdown}
+        >
+          How it Works
+        </Link>
+      </li>
+
+      <li>
+        <Link
+          className={`inline-block px-3 ${
             pathname === "/contact" ? "text-primary" : ""
           }`}
           href="/contact"
