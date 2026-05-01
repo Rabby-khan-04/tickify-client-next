@@ -96,10 +96,16 @@ const ManageMovies = () => {
                     <td className="border border-white/60 px-4 py-2">
                       <div className="flex items-center justify-center gap-2">
                         <button className="p-2 rounded-md cursor-pointer bg-primary">
-                          <FaEye />
+                          <Link href={`/movie/${movie?.movieId}`}>
+                            <FaEye />
+                          </Link>
                         </button>
                         <button className="p-2 rounded-md cursor-pointer bg-accent">
-                          <FaPen />
+                          <Link
+                            href={`/dashboard/admin/manage-movies/edit/${movie?._id}`}
+                          >
+                            <FaPen />
+                          </Link>
                         </button>
                         <button className="p-2 rounded-md cursor-pointer bg-red-500">
                           <FaTrash />

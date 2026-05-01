@@ -18,7 +18,7 @@ const BannerSlide = ({ show }) => {
 
   return (
     <div
-      className="h-screen bg-cover bg-center pb-20 flex items-end"
+      className="h-[80vh] bg-cover bg-center pb-20 flex items-end"
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url(${
           process.env.NEXT_PUBLIC_TMDB_PATH
@@ -29,14 +29,14 @@ const BannerSlide = ({ show }) => {
         <div className="w-auto shrink-0 hidden md:block">
           <Image
             src={process.env.NEXT_PUBLIC_TMDB_PATH + poster_path}
-            width={400}
-            height={600}
+            width={300}
+            height={400}
             alt={title}
-            className="object-cover rounded-3xl border border-primary-light"
+            className="object-cover rounded-xl border border-primary-light"
           />
         </div>
 
-        <div className="text-white max-w-xl">
+        <div className="text-white max-w-2xl">
           <h2 className="text-[clamp(2rem,3vw,80px)] font-bold">{title}</h2>
 
           <p className="text-base md:text-lg mb-4">{overview}</p>

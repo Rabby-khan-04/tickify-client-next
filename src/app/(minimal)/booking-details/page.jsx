@@ -16,6 +16,8 @@ const BookingDetailsPage = () => {
     useBookingStore();
   const { movieDetails, movieDetailsLoading } = useMovieDetails(movie);
 
+  console.log(movieDetails);
+
   if (movieDetailsLoading) return <Spinner />;
 
   const billAmount = price * seats.length;

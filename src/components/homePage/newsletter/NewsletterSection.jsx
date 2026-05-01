@@ -45,8 +45,11 @@ const NewsletterSection = () => {
       className="p-yaxis relative z-30 overflow-x-hidden bg-cover bg-center bg-no-repeat"
       style={{ backgroundImage: `url(${seatImage.src})` }}
     >
+      <div className="absolute inset-0 bg-[#060d08]/85 z-20">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(29,231,130,0.07)_0%,transparent_65%)]" />
+      </div>
       <BlurCircle top="100px" right="-200px" />
-      <div className="container-fluid space-y-4">
+      <div className="container-fluid space-y-4 relative z-40">
         {/* Newsletter card */}
         <div className="relative border border-white/10 rounded-2xl px-6 py-14 flex flex-col items-center text-center overflow-hidden bg-[#0d120e]">
           {/* subtle radial glow */}
