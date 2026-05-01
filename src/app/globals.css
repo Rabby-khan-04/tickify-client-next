@@ -69,3 +69,6 @@ body {
 .p-top {
   @apply pt-16 md:pt-20 lg:pt-32;
 }
+.p-yaxis {
+  @apply py-16 md:py-20 lg:py-32;
+}
