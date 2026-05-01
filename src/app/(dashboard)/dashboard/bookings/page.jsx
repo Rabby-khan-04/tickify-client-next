@@ -40,7 +40,6 @@ const BookingsPage = () => {
 
   return (
     <div className="py-20 lg:py-32 relative overflow-hidden">
-      <BlurCircle top="-100px" right="-100px" />
       <section className="min-h-screen">
         <div className="container-fluid">
           <SectionTitle title="Ticket Detail" />
@@ -64,7 +63,6 @@ const BookingsPage = () => {
           )}
         </div>
       </section>
-      <BlurCircle bottom="-100px" left="-100px" />
     </div>
   );
 };

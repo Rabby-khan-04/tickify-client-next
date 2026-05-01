@@ -19,7 +19,7 @@ const PaymentSuccess = () => {
             alt=""
           />
           <div className="space-y-5">
-            <Link href="/bookings" className="btn w-full text-center">
+            <Link href="/dashboard/bookings" className="btn w-full text-center">
               View Ticket
             </Link>
             <Link href="/" className="btn-alt w-full text-center">

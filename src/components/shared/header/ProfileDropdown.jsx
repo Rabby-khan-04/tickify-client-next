@@ -81,7 +81,7 @@ const ProfileDropdown = ({ dropDown, setDropDown }) => {
           </Link>
 
           <Link
-            href="/bookings"
+            href="/dashboard/bookings"
             className="flex items-center gap-4 text-text-muted text-sm py-2"
             onClick={() => setDropDown(false)}
           >

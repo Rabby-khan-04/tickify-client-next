@@ -86,6 +86,15 @@ const DashboardNav = () => {
             }}
           />
 
+          <DashboardNavLink
+            key="/dashboard/bookings"
+            items={{
+              path: "/dashboard/bookings",
+              text: "My Bookings",
+              ICON: ListTodo,
+            }}
+          />
+
           {isAdmin &&
             adminNavLinks.map((items) => (
               <DashboardNavLink key={items.path} items={items} />
