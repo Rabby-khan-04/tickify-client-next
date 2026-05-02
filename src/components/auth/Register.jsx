@@ -3,7 +3,6 @@
 import logo from "@/../public/brand/logo.png";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import SectionTitle from "@/components/shared/SectionTitle/SectionTitle";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -13,6 +12,7 @@ import { registerUser, updateUserInfo } from "@/services/Auth.service";
 import BlurCircle from "@/components/shared/blurCircle/BlurCircle";
 import axiosPublic from "@/lib/axios/axiosPublic";
 import SocialLogin from "@/components/auth/Sociallogin";
+import SectionTitle from "../shared/sectionTitle/SectionTitle";
 
 const Register = () => {
   const [toggle, setToggle] = useState(false);

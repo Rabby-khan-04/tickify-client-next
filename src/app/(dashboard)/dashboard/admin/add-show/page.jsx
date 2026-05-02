@@ -1,10 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Spinner from "@/components/shared/Loader/Spinner";
-import SectionTitle from "@/components/shared/SectionTitle/SectionTitle";
 import useNowPlayingShow from "@/hooks/useNowPlayingShow";
-import ShowCard from "@/components/shared/Movie/ShowCard";
+
 import { FaCheck } from "react-icons/fa";
 
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -14,13 +12,16 @@ import "swiper/css/pagination";
 
 import { FreeMode } from "swiper/modules";
 import useTheaters from "@/hooks/useTheaters";
-import TheaterPill from "@/components/shared/Theater/TheaterPill";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { SlCalender } from "react-icons/sl";
 import { Delete } from "lucide-react";
 import axiosSecure from "@/lib/axios/axiosSecure";
 import SliderNav from "@/components/homePage/banner/SliderNav";
+import Spinner from "@/components/shared/loader/Spinner";
+import ShowCard from "@/components/shared/movie/ShowCard";
+import SectionTitle from "@/components/shared/sectionTitle/SectionTitle";
+import TheaterPill from "@/components/shared/theater/TheaterPill";
 
 const AddShowPage = () => {
   const { nowPlayingShows, nowPlayingShowsLoading } = useNowPlayingShow();

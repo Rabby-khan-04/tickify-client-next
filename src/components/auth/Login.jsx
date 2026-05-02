@@ -3,7 +3,6 @@
 import logo from "@/../public/brand/logo.png";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import SectionTitle from "@/components/shared/SectionTitle/SectionTitle";
 import { Eye, EyeOff, User, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -12,6 +11,7 @@ import Image from "next/image";
 import { loginUser } from "@/services/Auth.service";
 import BlurCircle from "@/components/shared/blurCircle/BlurCircle";
 import SocialLogin from "@/components/auth/Sociallogin";
+import SectionTitle from "../shared/sectionTitle/SectionTitle";
 
 const DEMO_ACCOUNTS = {
   user: {
