@@ -37,8 +37,6 @@ export async function getFavorites() {
   try {
     const res = await axiosPublic.get("/users/favorites");
 
-    console.log("from hook", res);
-
     return res?.data?.data || [];
   } catch (error) {
     console.log(`ERROR While Fetching Favorites: ${error}`);
@@ -49,8 +47,6 @@ export const fetchAllMovies = async (page, limit) => {
   const res = await axiosSecure.get("/movies", {
     params: { page, limit },
   });
-
-  console.log("from", res);
 
   return res.data?.data;
 };
