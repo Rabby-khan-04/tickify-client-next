@@ -14,7 +14,7 @@ import {
 
 const Field = ({ label, error, children }) => (
   <div className="flex flex-col gap-1.5">
-    <label className="text-white/50 text-xs uppercase tracking-widest font-medium">
+    <label className="theme-text-secondary text-xs uppercase tracking-widest font-medium">
       {label}
     </label>
     {children}
@@ -23,15 +23,15 @@ const Field = ({ label, error, children }) => (
 );
 
 const inputCls =
-  "bg-[#080f0b] border border-white/10 rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-white/20 focus:outline-none focus:border-primary/40 transition-colors w-full";
+  "theme-input border border-[var(--input-border)] rounded-xl px-4 py-2.5 theme-text-primary text-sm placeholder:text-[var(--text-faint)] focus:outline-none focus:border-primary/40 transition-colors w-full";
 
 const Card = ({ icon: Icon, title, children, onSubmit }) => (
-  <div className="bg-[#0d120e] border border-white/[0.07] rounded-2xl overflow-hidden">
-    <div className="flex items-center gap-3 px-6 py-4 border-b border-white/[0.07]">
+  <div className="theme-card border theme-border rounded-2xl overflow-hidden">
+    <div className="flex items-center gap-3 px-6 py-4 border-b theme-border">
       <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center">
         <Icon className="w-4 h-4 text-primary" strokeWidth={1.7} />
       </div>
-      <h3 className="text-white text-sm font-semibold">{title}</h3>
+      <h3 className="theme-text-primary text-sm font-semibold">{title}</h3>
     </div>
     <form onSubmit={onSubmit} className="px-6 py-5 space-y-4">
       {children}
@@ -134,8 +134,10 @@ const UpdateProfileForm = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center gap-2">
-        <User className="w-5 h-5 text-white/40" strokeWidth={1.8} />
-        <h2 className="text-white font-semibold text-base">Edit Profile</h2>
+        <User className="w-5 h-5 text-text-muted" strokeWidth={1.8} />
+        <h2 className="theme-text-primary font-semibold text-base">
+          Edit Profile
+        </h2>
       </div>
 
       <Card
@@ -195,7 +197,7 @@ const UpdateProfileForm = () => {
             <button
               type="button"
               onClick={() => setShowPw((p) => !p)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-faint hover:text-text-secondary transition-colors"
             >
               {showPw ? (
                 <EyeOff className="w-4 h-4" />
@@ -220,7 +222,7 @@ const UpdateProfileForm = () => {
             <button
               type="button"
               onClick={() => setShowConfirm((p) => !p)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-text-faint hover:text-text-secondary transition-colors"
             >
               {showConfirm ? (
                 <EyeOff className="w-4 h-4" />

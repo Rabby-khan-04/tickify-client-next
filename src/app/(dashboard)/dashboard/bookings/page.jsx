@@ -1,6 +1,5 @@
 "use client";
 
-import BlurCircle from "@/components/shared/blurCircle/BlurCircle";
 import Spinner from "@/components/shared/loader/Spinner";
 import Ticket from "@/components/shared/movie/Ticket";
 import Pagination from "@/components/shared/pagination/Pagination";
@@ -57,7 +56,7 @@ const BookingsPage = () => {
               />
             </>
           ) : (
-            <p className="text-white/60 text-center mt-20">
+            <p className="theme-text-secondary text-center mt-20">
               No bookings found.
             </p>
           )}

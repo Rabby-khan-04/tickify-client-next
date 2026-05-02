@@ -27,9 +27,8 @@ const TheatersPage = () => {
   if (theatersLoading) return <Spinner />;
 
   return (
-    <section className="text-white">
+    <section className="theme-text-primary">
       <SectionTitle title="Add Theaters" />
-
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex items-end gap-2 md:gap-5 flex-wrap"
@@ -38,7 +37,7 @@ const TheatersPage = () => {
           <label
             htmlFor="theater"
             className={`text-base block ${
-              errors.theater ? "text-red-400" : "text-white/80"
+              errors.theater ? "text-red-400" : "theme-text-secondary"
             }`}
           >
             Theater*
@@ -47,8 +46,8 @@ const TheatersPage = () => {
             type="text"
             id="theater"
             className={`outline-0 focus:outline-0 border ${
-              errors.theater ? "border-red-400" : "border-white/50"
-            } rounded-md px-4 py-2 w-full block`}
+              errors.theater ? "border-red-400" : "border-border-subtle"
+            } rounded-md px-4 py-2 w-full block theme-input theme-text-primary placeholder:text-text-faint`}
             placeholder="Enter theater name"
             {...register("theater", { required: true })}
           />
@@ -58,7 +57,7 @@ const TheatersPage = () => {
           <label
             htmlFor="location"
             className={`text-base block ${
-              errors.location ? "text-red-400" : "text-white/80"
+              errors.location ? "text-red-400" : "theme-text-secondary"
             }`}
           >
             Location*
@@ -67,8 +66,8 @@ const TheatersPage = () => {
             type="text"
             id="location"
             className={`outline-0 focus:outline-0 border ${
-              errors.location ? "border-red-400" : "border-white/50"
-            } rounded-md px-4 py-2 w-full block`}
+              errors.location ? "border-red-400" : "border-border-subtle"
+            } rounded-md px-4 py-2 w-full block theme-input theme-text-primary placeholder:text-text-faint`}
             placeholder="Enter theater location"
             {...register("location", { required: true })}
           />
@@ -81,7 +80,6 @@ const TheatersPage = () => {
 
       <div className="mt-6 md:mt-8 xl:mt-10">
         <SectionTitle title="Theaters" />
-
         <div className="space-y-4 space-x-4">
           {theaters?.map((theater) => (
             <TheaterPill theater={theater} key={theater._id} />

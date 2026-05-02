@@ -1,19 +1,13 @@
 import { formatDay, formatMonth, formatWeekDay } from "@/utils/dateFormatter";
-import React from "react";
 
 const DateCard = ({ date, state = false, onSelect }) => {
-  const handleClick = () => {
-    if (onSelect) {
-      onSelect(date);
-    }
-  };
   return (
     <div
-      onClick={handleClick}
-      className={`text-center inline-block px-4 py-3 md:py-5 md:px-6 border rounded-lg cursor-pointer max-md:text-sm ${
+      onClick={() => onSelect?.(date)}
+      className={`text-center inline-block px-4 py-3 md:py-5 md:px-6 border rounded-lg cursor-pointer max-md:text-sm transition-colors ${
         state
           ? "bg-primary border-primary text-dark"
-          : "bg-transparent border-white text-white"
+          : "border-border-subtle theme-text-primary hover:border-primary/40"
       }`}
     >
       <p>

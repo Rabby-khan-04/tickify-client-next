@@ -1,20 +1,22 @@
 "use client";
-
 import { Calendar, Clock, Globe, Star } from "lucide-react";
 
+const inputCls =
+  "bg-transparent theme-text-primary text-xl font-semibold outline-none w-full placeholder:text-text-faint border-b border-border-subtle pb-2 focus:border-primary/50 transition-colors";
+
 const StatInput = ({ label, icon: Icon, value, onChange, type = "text" }) => (
-  <div className="bg-white/3 border border-white/[0.07] rounded-2xl p-5 flex flex-col gap-4">
-    <p className="text-[10px] font-semibold tracking-[0.14em] uppercase text-white/30">
+  <div className="bg-border-subtle/30 border theme-border rounded-2xl p-5 flex flex-col gap-4">
+    <p className="text-[10px] font-semibold tracking-[0.14em] uppercase text-text-faint">
       {label}
     </p>
     <input
       type={type}
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="bg-transparent text-white text-xl font-semibold outline-none w-full placeholder:text-white/20 border-b border-white/[0.07] pb-2 focus:border-primary/50 transition-colors"
+      className={inputCls}
     />
     <div className="flex justify-end">
-      <Icon className="w-4 h-4 text-white/20" strokeWidth={1.5} />
+      <Icon className="w-4 h-4 text-text-faint" strokeWidth={1.5} />
     </div>
   </div>
 );
@@ -42,8 +44,8 @@ const MetaStatsSection = ({ form, onChange }) => {
         value={form.original_language}
         onChange={(val) => onChange("original_language", val)}
       />
-      <div className="bg-white/3 border border-white/[0.07] rounded-2xl p-5 flex flex-col gap-4">
-        <p className="text-[10px] font-semibold tracking-[0.14em] uppercase text-white/30">
+      <div className="bg-border-subtle/30 border theme-border rounded-2xl p-5 flex flex-col gap-4">
+        <p className="text-[10px] font-semibold tracking-[0.14em] uppercase text-text-faint">
           Vote Avg
         </p>
         <div className="flex items-baseline gap-1">
@@ -56,12 +58,12 @@ const MetaStatsSection = ({ form, onChange }) => {
             onChange={(e) =>
               onChange("vote_average", parseFloat(e.target.value))
             }
-            className="bg-transparent text-primary text-xl font-semibold outline-none w-full border-b border-white/[0.07] pb-2 focus:border-primary/50 transition-colors"
+            className="bg-transparent text-primary text-xl font-semibold outline-none w-full border-b border-border-subtle pb-2 focus:border-primary/50 transition-colors"
           />
-          <span className="text-white/25 text-sm">/10</span>
+          <span className="text-text-faint text-sm">/10</span>
         </div>
         <div className="flex justify-end">
-          <Star className="w-4 h-4 text-white/20" strokeWidth={1.5} />
+          <Star className="w-4 h-4 text-text-faint" strokeWidth={1.5} />
         </div>
       </div>
     </div>

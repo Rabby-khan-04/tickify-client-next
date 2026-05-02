@@ -65,8 +65,6 @@ const MovieClient = ({ movieDetails, showData }) => {
     }
   };
 
-  console.log(genres);
-
   return (
     <>
       {/* HERO */}
@@ -108,16 +106,19 @@ const MovieClient = ({ movieDetails, showData }) => {
             </div>
 
             <div className="flex items-center gap-6">
-              {showData?.theaters?.length && (
+              {showData?.theaters?.length ? (
                 <Link
                   href={`/showtime/${showData._id}`}
                   className="btn-gradient"
                 >
                   <Ticket /> Get Ticket
                 </Link>
-              )}
+              ) : null}
 
-              <button onClick={handleTrailerClick} className="btn-ghost">
+              <button
+                onClick={handleTrailerClick}
+                className="btn-ghost btn-ghost-on-hero"
+              >
                 <Play /> Trailer
               </button>
 
@@ -154,15 +155,15 @@ const MovieClient = ({ movieDetails, showData }) => {
                     className="rounded-full h-20 object-cover"
                     alt={cast.name}
                   />
-                  <p className="text-white text-xs mt-2">{cast.name}</p>
+                  <p className="theme-text-primary text-xs mt-2">{cast.name}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="w-full lg:w-96 bg-primary/10 border border-primary rounded-2xl p-6 text-white space-y-4">
+          <div className="w-full lg:w-96 bg-primary/10 border border-primary/20 rounded-2xl p-6 theme-text-primary space-y-4">
             <h2 className="text-xl font-semibold">More Details</h2>
-            <div className="space-y-4 text-white/80">
+            <div className="space-y-4 theme-text-secondary">
               <div className="flex items-center gap-1">
                 <Earth />
                 <p>Language: {original_language}</p>

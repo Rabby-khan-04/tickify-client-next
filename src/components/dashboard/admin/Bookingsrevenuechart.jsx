@@ -1,5 +1,4 @@
 "use client";
-
 import {
   BarChart,
   Bar,
@@ -14,8 +13,8 @@ import {
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
   return (
-    <div className="bg-[#0d1a0f] border border-primary/20 rounded-xl px-4 py-3 shadow-xl">
-      <p className="text-white/50 text-xs mb-2 uppercase tracking-wider">
+    <div className="theme-surface border border-primary/20 rounded-xl px-4 py-3 shadow-xl">
+      <p className="text-text-muted text-xs mb-2 uppercase tracking-wider">
         {label}
       </p>
       {payload.map((entry) => (
@@ -27,7 +26,7 @@ const CustomTooltip = ({ active, payload, label }) => {
           {entry.name === "Revenue"
             ? `$${entry.value.toLocaleString()}`
             : entry.value}{" "}
-          <span className="font-normal text-white/40">{entry.name}</span>
+          <span className="font-normal text-text-faint">{entry.name}</span>
         </p>
       ))}
     </div>
@@ -36,12 +35,15 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const BookingsRevenueChart = ({ data = [] }) => {
   return (
-    <div className="bg-[#0d1a0f] border border-primary/10 rounded-2xl p-6">
+    <div className="theme-surface border border-primary/10 rounded-2xl p-6">
       <div className="mb-6">
-        <h3 className="text-white font-bold text-lg">Bookings & Revenue</h3>
-        <p className="text-white/35 text-xs mt-1">Last 6 months performance</p>
+        <h3 className="theme-text-primary font-bold text-lg">
+          Bookings & Revenue
+        </h3>
+        <p className="text-text-faint text-xs mt-1">
+          Last 6 months performance
+        </p>
       </div>
-
       <ResponsiveContainer width="100%" height={260}>
         <BarChart data={data} barGap={4} barCategoryGap="30%">
           <CartesianGrid

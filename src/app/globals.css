@@ -102,9 +102,9 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-  transition:
+  /* transition:
     background-color 0.3s ease,
-    color 0.3s ease;
+    color 0.3s ease; */
 }
 
 /* ─── THEME-AWARE UTILITY OVERRIDES ────────────────────────── */
@@ -141,18 +141,18 @@ body {
 .nav-scrolled {
   background-color: var(--nav-bg-scrolled) !important;
 }
-*,
+/* *,
 *::before,
 *::after {
   transition-property: background-color, border-color, color;
   transition-duration: 0.25s;
   transition-timing-function: ease;
-}
+} */
 
 /* Explicitly prevent global transition from touching transform */
-img {
+/* img {
   transition-property: none !important;
-}
+} */
 /* ─── LAYOUT UTILS ──────────────────────────────────────────── */
 .container-fluid {
   @apply px-[5%] max-w-full w-full;

@@ -9,20 +9,20 @@ const PaymentSuccess = () => {
     <main className="h-screen relative overflow-hidden flex items-center justify-center">
       <BlurCircle top="-100px" right="-100px" />
       <div className="container-fluid">
-        <div className="max-w-sm mx-auto text-white text-center">
+        <div className="max-w-sm mx-auto theme-text-primary text-center">
           <SectionTitle title="Payment Success" />
           <Image
             src={check}
             width={200}
             height={200}
             className="inline-block mb-10"
-            alt=""
+            alt="Payment successful"
           />
           <div className="space-y-5">
             <Link href="/dashboard/bookings" className="btn w-full text-center">
               View Ticket
             </Link>
-            <Link href="/" className="btn-alt w-full text-center">
+            <Link href="/" className="btn-ghost block! w-full! text-center!">
               Back to Homepage
             </Link>
           </div>

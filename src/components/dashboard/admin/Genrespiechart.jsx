@@ -1,5 +1,4 @@
 "use client";
-
 import {
   PieChart,
   Pie,
@@ -22,9 +21,9 @@ const CustomTooltip = ({ active, payload }) => {
   if (!active || !payload?.length) return null;
   const { name, value } = payload[0].payload;
   return (
-    <div className="bg-[#0d1a0f] border border-primary/20 rounded-xl px-4 py-3 shadow-xl">
+    <div className="theme-surface border border-primary/20 rounded-xl px-4 py-3 shadow-xl">
       <p className="text-primary font-semibold text-sm">{name}</p>
-      <p className="text-white/50 text-xs mt-0.5">{value} movies</p>
+      <p className="text-text-muted text-xs mt-0.5">{value} movies</p>
     </div>
   );
 };
@@ -51,12 +50,13 @@ const renderCustomLabel = ({ cx, cy, midAngle, outerRadius, percent }) => {
 
 const GenresPieChart = ({ data = [] }) => {
   return (
-    <div className="bg-[#0d1a0f] border border-primary/10 rounded-2xl p-6">
+    <div className="theme-surface border border-primary/10 rounded-2xl p-6">
       <div className="mb-6">
-        <h3 className="text-white font-bold text-lg">Top Genres</h3>
-        <p className="text-white/35 text-xs mt-1">Movie catalog distribution</p>
+        <h3 className="theme-text-primary font-bold text-lg">Top Genres</h3>
+        <p className="text-text-faint text-xs mt-1">
+          Movie catalog distribution
+        </p>
       </div>
-
       <ResponsiveContainer width="100%" height={260}>
         <PieChart>
           <Pie

@@ -17,7 +17,6 @@ const EditMoviePage = () => {
   const router = useRouter();
   const { movieDetails, movieDetailsLoading } = useMovieDetails(movieId);
 
-  // Derive initial form from movieDetails — no effect needed
   const initialForm = useMemo(() => {
     if (!movieDetails) return null;
     return {
@@ -37,7 +36,6 @@ const EditMoviePage = () => {
   const [isSaving, setIsSaving] = useState(false);
   const [syncStatus, setSyncStatus] = useState("ready");
 
-  // Merge base data with any user edits
   const form = useMemo(
     () => (initialForm ? { ...initialForm, ...overrides } : null),
     [initialForm, overrides],
@@ -73,7 +71,7 @@ const EditMoviePage = () => {
     <div className="pb-32">
       {/* Breadcrumb */}
       <div className="container-fluid pt-8 pb-6">
-        <div className="flex items-center gap-2 text-xs text-white/30 font-medium tracking-widest uppercase mb-4">
+        <div className="flex items-center gap-2 text-xs text-text-faint font-medium tracking-widest uppercase mb-4">
           <Link
             href="/dashboard/admin/manage-movies"
             className="hover:text-primary transition-colors"
@@ -83,14 +81,13 @@ const EditMoviePage = () => {
           <span>›</span>
           <span className="text-primary">Edit Entry</span>
         </div>
-        <h1 className="text-white text-3xl font-bold">
+        <h1 className="theme-text-primary text-3xl font-bold">
           Edit Movie: <span className="text-primary">{movieDetails.title}</span>
         </h1>
       </div>
 
       <div className="container-fluid">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-5">
-          {/* Left column */}
           <div className="flex flex-col gap-5">
             <GeneralInfoSection form={form} onChange={handleFieldChange} />
             <MetaStatsSection form={form} onChange={handleFieldChange} />
@@ -105,8 +102,6 @@ const EditMoviePage = () => {
               />
             </div>
           </div>
-
-          {/* Right column */}
           <div className="flex flex-col gap-5">
             <MediaAssetsSection movieDetails={movieDetails} />
             <SaveBar

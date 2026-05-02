@@ -108,7 +108,7 @@ const Header = () => {
                 dropDown={dropDown}
                 setDropDown={setDropDown}
                 scrolling={scrolling}
-              />{" "}
+              />
             </>
           ) : (
             <Link href="/login" className="btn">

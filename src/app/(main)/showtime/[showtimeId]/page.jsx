@@ -21,7 +21,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { FaStar } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import toast from "react-hot-toast"; // make sure this is imported
+import toast from "react-hot-toast";
 
 const ShowtimePage = () => {
   const { showtimeId } = useParams();
@@ -52,7 +52,6 @@ const ShowtimePage = () => {
     enabled: !!selectedTheater,
   });
 
-  // Derive all values directly — no useEffect, no setState cascade
   const theaters = useMemo(() => {
     if (!show) return [];
     return show.theaters.map((t) => t.theaterId);
@@ -61,7 +60,6 @@ const ShowtimePage = () => {
   const { dates, times, selectedPrice } = useMemo(() => {
     if (!show) return { dates: [], times: [], selectedPrice: 0 };
 
-    // Filter to selected theater, or use all theaters
     const relevantTheaters = selectedTheater
       ? show.theaters.filter((t) => t.theaterId._id === selectedTheater)
       : show.theaters;
@@ -74,8 +72,6 @@ const ShowtimePage = () => {
     relevantTheaters.forEach((theater) => {
       theater.dates.forEach((d) => {
         if (!dates.includes(d.date)) dates.push(d.date);
-
-        // Filter to selected date, or include all times
         if (!selectedDate || d.date === selectedDate) {
           d.showtimes.forEach((s) => times.push(s.time));
         }
@@ -99,7 +95,6 @@ const ShowtimePage = () => {
 
   const handleTheaterSelection = (theaterId) => {
     setSelectedTheater(theaterId);
-    // Reset downstream selections when theater changes
     setSelectedDate("");
     setSelectedTime("");
   };
@@ -122,7 +117,7 @@ const ShowtimePage = () => {
   };
 
   function handleTrailerClick() {
-    toast("Currenlty not available on TMDB API", { icon: "⚠️" });
+    toast("Currently not available on TMDB API", { icon: "⚠️" });
   }
 
   const handleProceed = () => {
@@ -147,10 +142,13 @@ const ShowtimePage = () => {
 
   return (
     <div className="py-20 lg:py-32 overflow-x-hidden">
+      {/* ── Movie + Showtime selection ─────────────────────────── */}
       <section className="relative">
         <BlurCircle top="-100px" right="0" />
         <BlurCircle bottom="-100px" left="-100px" />
+
         <div className="container-fluid flex max-md:flex-col-reverse gap-6">
+          {/* Left — selectors */}
           <div className="flex-1 flex flex-col justify-between gap-5">
             <div>
               <SectionTitle title="Theater" />
@@ -165,6 +163,7 @@ const ShowtimePage = () => {
                 ))}
               </div>
             </div>
+
             <div>
               <SectionTitle title="Date" />
               <div className="flex items-center gap-2">
@@ -178,6 +177,7 @@ const ShowtimePage = () => {
                 ))}
               </div>
             </div>
+
             <div>
               <SectionTitle title="Time" />
               <div className="flex items-center gap-2 flex-wrap">
@@ -192,64 +192,69 @@ const ShowtimePage = () => {
               </div>
             </div>
           </div>
+
+          {/* Right — movie info */}
           <div className="shrink-0 w-full md:w-72">
             <Image
               src={`${process.env.NEXT_PUBLIC_TMDB_PATH}${poster_path}`}
-              alt=""
+              alt={title}
               width={240}
               height={400}
               className="rounded-[20px] inline-block mb-9 max-w-60 h-auto sm:w-72"
             />
             <div className="space-y-4">
-              <h2 className="text-white text-[clamp(1.3rem,2vw,1.5rem)] font-semibold">
+              <h2 className="theme-text-primary text-[clamp(1.3rem,2vw,1.5rem)] font-semibold">
                 {title}
               </h2>
-              <div className="grid grid-cols-2 gap-1 text-white/80">
-                <p>Duration: </p>
+              <div className="grid grid-cols-2 gap-1 theme-text-secondary">
+                <p>Duration:</p>
                 <p>{runtimeFormater(runtime)}</p>
-                <p>Language: </p>
+                <p>Language:</p>
                 <p>{original_language}</p>
-                <p>Release: </p>
+                <p>Release:</p>
                 <p>{formatYear(release_date)}</p>
               </div>
-              {tagline ? (
-                <p className="text-white/80 flex items-center gap-1">
-                  <FaStar />
+              {tagline && (
+                <p className="theme-text-secondary flex items-center gap-1">
+                  <FaStar className="text-primary shrink-0" />
                   {tagline}
                 </p>
-              ) : null}
+              )}
             </div>
           </div>
         </div>
       </section>
 
+      {/* ── Theater booking summary ────────────────────────────── */}
       {selectedTheater && theaterData && (
         <section className="mt-10 lg:mt-16 relative">
           <BlurCircle bottom="-150px" right="-150px" />
           <div className="container-fluid flex justify-end">
-            <div className="w-full bg-primary/10 md:w-96 py-5 px-7 md:py-10 md:px-14 border border-primary rounded-2xl text-white space-y-8">
+            <div className="w-full bg-primary/10 md:w-96 py-5 px-7 md:py-10 md:px-14 border border-primary/20 rounded-2xl theme-text-primary space-y-8">
               <div className="space-y-3">
                 <h3 className="text-3xl font-semibold">
                   {theaterData.name || "N/A"}
                 </h3>
-                <p className="text-lg text-white/80 flex items-center gap-1">
-                  <FaLocationDot className="text-sm" />
+                <p className="text-lg theme-text-secondary flex items-center gap-1">
+                  <FaLocationDot className="text-sm text-primary shrink-0" />
                   <span>{theaterData.location || "N/A"}</span>
                 </p>
               </div>
-              <div className="space-y-2">
-                <h5>
+
+              <div className="space-y-2 theme-text-secondary">
+                <p>
                   Date: {selectedDate ? formatFullDate(selectedDate) : "N/A"}
-                </h5>
+                </p>
                 <p>Time: {selectedTime ? formatTime(selectedTime) : "N/A"}</p>
                 <p>Price: {selectedPrice ? `$${selectedPrice}` : "N/A"}</p>
               </div>
-              <p className="text-sm">*Seat selection can be done after this</p>
+
+              <p className="text-sm theme-text-faint">
+                *Seat selection can be done after this
+              </p>
+
               <button
-                className={`btn w-full text-center transition-all
-                  
-                `}
-                // disabled={isDisabled}
+                className="btn w-full text-center"
                 onClick={handleProceed}
               >
                 Proceed

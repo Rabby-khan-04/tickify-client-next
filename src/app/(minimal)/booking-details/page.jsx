@@ -48,7 +48,7 @@ const BookingDetailsPage = () => {
       <BlurCircle top="-100px" right="-100px" />
       <div className="container-fluid">
         {movieDetails && theater && showId ? (
-          <div className="max-w-md mx-auto text-white">
+          <div className="max-w-md mx-auto theme-text-primary">
             <SectionTitle title="Booking Details" />
             <div className="space-y-5 mb-16">
               <h3 className="text-[clamp(1.2rem,2vw,1.5rem)]">Schedule</h3>
@@ -86,43 +86,42 @@ const BookingDetailsPage = () => {
               <h4 className="text-[clamp(1rem,1.8vw,1.2rem)]">
                 Transaction Detail
               </h4>
-              <div className="flex flex-wrap items-center justify-between text-[clamp(1rem,1.5vw,1rem)]">
-                <p className="">REGULAR SEAT</p>
+              <div className="flex flex-wrap items-center justify-between text-[clamp(1rem,1.5vw,1rem)] theme-text-secondary">
+                <p>REGULAR SEAT</p>
                 <p>
                   $ {price} <sub>X</sub>
                   {seats.length}
                 </p>
               </div>
-              <div className="flex flex-wrap items-center justify-between text-[clamp(1rem,1.5vw,1rem)]">
-                <p className="">Service Sharge (6%)</p>
+              <div className="flex flex-wrap items-center justify-between text-[clamp(1rem,1.5vw,1rem)] theme-text-secondary">
+                <p>Service Charge (6%)</p>
                 <p>
                   $ {serviceCharge} <sub>X</sub>
                   {seats.length}
                 </p>
               </div>
-
-              <div className="border-y border-white/80 py-2 flex flex-wrap items-center justify-between text-[clamp(1rem,1.8vw,1.2rem)]">
+              <div className="border-y border-border-subtle py-2 flex flex-wrap items-center justify-between text-[clamp(1rem,1.8vw,1.2rem)]">
                 <p>Total payment</p>
                 <p>$ {totalBill}</p>
               </div>
             </div>
 
             <div className="space-y-5">
-              <p className="text-xs text-white/80">
+              <p className="text-xs theme-text-secondary">
                 *Purchased ticket cannot be canceled
               </p>
               <button className="btn w-full" onClick={handleCheckout}>
                 <div className="flex items-center justify-center gap-2">
                   <span>Checkout Ticket</span>
                   {isPending && (
-                    <div className="size-8 border-t-2 border-r-2 border-white rounded-full animate-spin"></div>
+                    <div className="size-8 border-t-2 border-r-2 border-dark rounded-full animate-spin" />
                   )}
                 </div>
               </button>
             </div>
           </div>
         ) : (
-          <div className="max-w-md mx-auto text-white">
+          <div className="max-w-md mx-auto theme-text-primary">
             <SectionTitle title="Booking Details Not Available" />
           </div>
         )}

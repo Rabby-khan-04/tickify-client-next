@@ -6,29 +6,28 @@ const Ticket = ({ booking }) => {
   const handlePayNow = () => {
     window.location.href = paymentLink;
   };
+
   return (
-    <div className="rounded-[20px] border border-primary  bg-primary/10 max-w-96 w-full p-5 text-white space-y-10">
+    <div className="rounded-[20px] border border-primary bg-primary/10 max-w-96 w-full p-5 theme-text-primary space-y-10">
       <div className="space-y-1">
-        <h4 className="text-[clamp(1rem,1.8vw,1.2rem)] font-light text-white/80">
+        <h4 className="text-[clamp(1rem,1.8vw,1.2rem)] font-light theme-text-secondary">
           Date
         </h4>
         <p className="text-[clamp(1.2rem,2vw,1.5rem)] truncate">
           {formatFullDate(date)}
         </p>
       </div>
-
       <div className="space-y-1">
-        <h4 className="text-[clamp(1rem,1.8vw,1.2rem)] font-light text-white/80">
+        <h4 className="text-[clamp(1rem,1.8vw,1.2rem)] font-light theme-text-secondary">
           Movie Title
         </h4>
         <p className="text-[clamp(1.2rem,2vw,1.5rem)] truncate">
           {movieId?.title}
         </p>
       </div>
-
       <div className="space-y-1 flex items-center justify-between flex-wrap">
         <div>
-          <h4 className="text-[clamp(1rem,1.8vw,1.2rem)] font-light text-white/80">
+          <h4 className="text-[clamp(1rem,1.8vw,1.2rem)] font-light theme-text-secondary">
             Seats ({seats.length})
           </h4>
           <p className="text-[clamp(1.2rem,2vw,1.5rem)] truncate">
@@ -36,13 +35,12 @@ const Ticket = ({ booking }) => {
           </p>
         </div>
         <div>
-          <h4 className="text-[clamp(1rem,1.8vw,1.2rem)] font-light text-white/80">
+          <h4 className="text-[clamp(1rem,1.8vw,1.2rem)] font-light theme-text-secondary">
             Hour
           </h4>
           <p className="text-[clamp(1.2rem,2vw,1.5rem)] truncate">{time}</p>
         </div>
       </div>
-
       {paymentStatus === "paid" ? (
         <button className="btn w-full">Download Ticket</button>
       ) : (

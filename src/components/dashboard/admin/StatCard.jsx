@@ -5,7 +5,7 @@ const StatCard = ({ icon: Icon, label, value, change, note, prefix = "" }) => {
   const positive = change >= 0;
 
   return (
-    <div className="group relative bg-[#0d1a0f] border border-primary/10 rounded-2xl p-6 flex flex-col gap-4 overflow-hidden hover:border-primary/30 transition-all duration-300">
+    <div className="group relative theme-surface border border-primary/10 rounded-2xl p-6 flex flex-col gap-4 overflow-hidden hover:border-primary/30 transition-all duration-300">
       {/* Background icon watermark */}
       <Icon className="absolute right-4 top-4 w-12 h-12 text-primary/8 group-hover:text-primary/15 transition-colors duration-300" />
 
@@ -14,14 +14,14 @@ const StatCard = ({ icon: Icon, label, value, change, note, prefix = "" }) => {
         <span className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
           <Icon className="w-4 h-4 text-primary" />
         </span>
-        <p className="text-white/40 text-xs font-semibold uppercase tracking-widest">
+        <p className="text-text-muted text-xs font-semibold uppercase tracking-widest">
           {label}
         </p>
       </div>
 
       {/* Value row */}
       <div className="flex items-baseline gap-3">
-        <span className="text-white text-4xl font-bold tracking-tight leading-none">
+        <span className="theme-text-primary text-4xl font-bold tracking-tight leading-none">
           {prefix}
           {value}
         </span>
@@ -36,7 +36,7 @@ const StatCard = ({ icon: Icon, label, value, change, note, prefix = "" }) => {
             {change}%
           </span>
         )}
-        {note && <span className="text-white/30 text-xs">— {note}</span>}
+        {note && <span className="text-text-faint text-xs">— {note}</span>}
       </div>
 
       {/* Bottom accent bar */}

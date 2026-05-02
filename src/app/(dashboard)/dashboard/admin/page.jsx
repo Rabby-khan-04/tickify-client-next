@@ -18,6 +18,7 @@ import BookingsRevenueChart from "@/components/dashboard/admin/Bookingsrevenuech
 import BookingStatusPieChart from "@/components/dashboard/admin/Bookingstatuspiechart";
 import GenresPieChart from "@/components/dashboard/admin/Genrespiechart";
 import theaterImg from "@/../public/image/theater-3.png";
+
 const fmt = (n) =>
   n >= 1_000_000
     ? `${(n / 1_000_000).toFixed(1)}M`
@@ -34,15 +35,15 @@ const SYSTEM_SERVICES = [
 
 const ChartSkeleton = ({ height = "h-[300px]" }) => (
   <div
-    className={`bg-[#0d1a0f] border border-primary/10 rounded-2xl p-6 ${height} animate-pulse`}
+    className={`theme-surface border border-primary/10 rounded-2xl p-6 ${height} animate-pulse`}
   >
-    <div className="h-4 w-40 bg-white/5 rounded mb-2" />
-    <div className="h-3 w-24 bg-white/5 rounded mb-6" />
+    <div className="h-4 w-40 bg-text-faint/10 rounded mb-2" />
+    <div className="h-3 w-24 bg-text-faint/10 rounded mb-6" />
     <div className="flex items-end gap-3 h-40 px-2">
       {[60, 85, 45, 90, 70, 55].map((h, i) => (
         <div
           key={i}
-          className="flex-1 bg-white/5 rounded-t"
+          className="flex-1 bg-text-faint/10 rounded-t"
           style={{ height: `${h}%` }}
         />
       ))}
@@ -111,10 +112,10 @@ const DashboardPage = () => {
       {/* ── Header ── */}
       <div className="flex items-start justify-between mb-10 flex-wrap gap-4">
         <div>
-          <h1 className="text-white text-3xl lg:text-4xl font-bold tracking-tight">
+          <h1 className="theme-text-primary text-3xl lg:text-4xl font-bold tracking-tight">
             Dashboard <span className="text-primary">Overview</span>
           </h1>
-          <p className="text-white/35 text-sm mt-2">
+          <p className="text-text-faint text-sm mt-2">
             Real-time cinematic performance analytics and system health metrics.
           </p>
         </div>
@@ -122,7 +123,7 @@ const DashboardPage = () => {
         <button
           onClick={() => refetch()}
           disabled={isFetching}
-          className="flex items-center gap-2 bg-primary text-[#061008] font-semibold text-sm px-5 py-3 rounded-xl hover:opacity-85 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          className="flex items-center gap-2 bg-primary text-[#061008] font-semibold text-sm px-5 py-3 rounded-xl hover:opacity-85 active:scale-[0.98] transition-all disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
         >
           <HiRefresh
             className={`w-4 h-4 ${isFetching ? "animate-spin" : ""}`}
@@ -138,7 +139,7 @@ const DashboardPage = () => {
           : statCards.map((card) => <StatCard key={card.label} {...card} />)}
       </div>
 
-      {/* ── Charts row 1: Bar chart full width ── */}
+      {/* ── Charts row 1 ── */}
       <div className="mb-5">
         {chartsLoading ? (
           <ChartSkeleton height="h-[340px]" />
@@ -147,7 +148,7 @@ const DashboardPage = () => {
         )}
       </div>
 
-      {/* ── Charts row 2: Booking status pie + Genres pie ── */}
+      {/* ── Charts row 2 ── */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
         {chartsLoading ? (
           <>
@@ -162,14 +163,14 @@ const DashboardPage = () => {
         )}
       </div>
 
-      {/* ── Bottom row: Theater card + System Status ── */}
+      {/* ── Bottom row ── */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5">
         {/* Prime Time Occupancy */}
         <div
           style={{ backgroundImage: `url(${theaterImg.src})` }}
           className="relative min-h-70 rounded-2xl overflow-hidden border border-primary/10 bg-center bg-cover bg-no-repeat"
         >
-          <div className="absolute inset-0 bg-[#0d1a0f]/40" />
+          <div className="absolute inset-0 bg-bg-surface/40" />
           <div
             className="absolute inset-0 opacity-20"
             style={{
@@ -180,11 +181,11 @@ const DashboardPage = () => {
             }}
           />
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-primary/40 blur-md rounded-full" />
-          <div className="absolute bottom-0 left-0 right-0 p-8 bg-linear-to-t from-[#061008] via-[#061008]/80 to-transparent">
+          <div className="absolute bottom-0 left-0 right-0 p-8 bg-linear-to-t from-bg-base via-bg-base/80 to-transparent">
             <h3 className="text-primary text-xl font-bold mb-2">
               Prime Time Occupancy
             </h3>
-            <p className="text-white/55 text-sm leading-relaxed max-w-lg">
+            <p className="theme-text-secondary text-sm leading-relaxed max-w-lg">
               Theater halls are currently at 84% capacity for the upcoming
               blockbuster screenings. Ticket sales have peaked during the
               evening hours between 6 PM and 10 PM.
@@ -193,23 +194,25 @@ const DashboardPage = () => {
         </div>
 
         {/* System Status */}
-        <div className="bg-[#0d1a0f] border border-primary/10 rounded-2xl p-7 flex flex-col gap-6">
+        <div className="theme-surface border border-primary/10 rounded-2xl p-7 flex flex-col gap-6">
           <div className="flex items-center gap-3">
             <span className="w-9 h-9 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
               <TbChartLine className="w-4 h-4 text-primary" />
             </span>
           </div>
 
-          <h3 className="text-white text-xl font-bold -mt-3">System Status</h3>
+          <h3 className="theme-text-primary text-xl font-bold -mt-3">
+            System Status
+          </h3>
 
-          <ul className="flex flex-col gap-0 divide-y divide-white/5">
+          <ul className="flex flex-col gap-0 divide-y divide-border-subtle">
             {SYSTEM_SERVICES.map(({ label, note }) => (
               <li
                 key={label}
                 className="flex items-center justify-between py-4"
               >
                 <div>
-                  <p className="text-white/70 text-sm">{label}</p>
+                  <p className="theme-text-secondary text-sm">{label}</p>
                   {note && (
                     <p className="text-primary/50 text-xs mt-0.5 italic">
                       {note}

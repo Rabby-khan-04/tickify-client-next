@@ -20,12 +20,11 @@ const ManageShowPage = () => {
   if (allShowsLoading) return <Spinner />;
 
   return (
-    <div className="text-white">
+    <div className="theme-text-primary">
       <div className="flex items-center justify-between mb-5 flex-wrap">
         <SectionTitle title="All Shows" />
-
         <Link
-          className="btn inline-flex items-center gap-2"
+          className="btn inline-flex! items-center gap-2"
           href="/dashboard/admin/add-show"
         >
           <FaPlus />
@@ -35,33 +34,33 @@ const ManageShowPage = () => {
 
       <div className="overflow-x-auto">
         {allShows.length !== 0 ? (
-          <table className="table-auto w-full border border-white/60 border-collapse text-white">
+          <table className="table-auto w-full border border-border-base border-collapse theme-text-primary">
             <thead>
-              <tr className="border border-white/60">
-                <th className="border border-white/60 px-4 py-2 max-md:hidden">
+              <tr className="border border-border-base">
+                <th className="border border-border-base px-4 py-2 max-md:hidden">
                   #
                 </th>
-                <th className="border border-white/60 px-4 py-2 max-md:hidden">
+                <th className="border border-border-base px-4 py-2 max-md:hidden">
                   Cover
                 </th>
-                <th className="border border-white/60 px-4 py-2">Title</th>
-                <th className="border border-white/60 px-4 py-2 max-md:hidden">
+                <th className="border border-border-base px-4 py-2">Title</th>
+                <th className="border border-border-base px-4 py-2 max-md:hidden">
                   Dates
                 </th>
-                <th className="border border-white/60 px-4 py-2">Action</th>
+                <th className="border border-border-base px-4 py-2">Action</th>
               </tr>
             </thead>
 
             <tbody>
               {allShows.map((show, idx) => (
                 <tr key={show._id}>
-                  <td className="border border-white/60 px-4 py-2 max-md:hidden">
+                  <td className="border border-border-base px-4 py-2 max-md:hidden">
                     {idx + 1}
                   </td>
 
-                  <td className="border border-white/60 px-4 py-2 text-center max-md:hidden">
+                  <td className="border border-border-base px-4 py-2 text-center max-md:hidden">
                     <Image
-                      src={show.movie.poster_path}
+                      src={`${process.env.NEXT_PUBLIC_TMDB_PATH}${show.movie.poster_path}`}
                       width={80}
                       height={120}
                       className="inline-block rounded-md"
@@ -69,17 +68,17 @@ const ManageShowPage = () => {
                     />
                   </td>
 
-                  <td className="border border-white/60 px-4 py-2 max-lg:max-w-40">
+                  <td className="border border-border-base px-4 py-2 max-lg:max-w-40">
                     <p className="truncate">{show.movie.title}</p>
                   </td>
 
-                  <td className="border border-white/60 px-4 py-2 max-md:hidden">
+                  <td className="border border-border-base px-4 py-2 max-md:hidden">
                     <div className="flex items-center gap-2 flex-wrap">
                       {show.theaters.map((theater) =>
                         theater.dates.map((date) => (
                           <div
                             key={`${date.date}-${theater.theaterId}`}
-                            className="p-2 border border-white/50 inline-block rounded-xl text-sm lg:text-base min-w-16"
+                            className="p-2 border border-border-subtle inline-block rounded-xl text-sm lg:text-base min-w-16"
                           >
                             <p>
                               <span>{formatDay(date.date)}</span>{" "}
@@ -95,7 +94,7 @@ const ManageShowPage = () => {
                     </div>
                   </td>
 
-                  <td className="border border-white/60 px-4 py-2">
+                  <td className="border border-border-base px-4 py-2">
                     <div className="flex items-center justify-center gap-2">
                       <button className="p-2 rounded-md cursor-pointer bg-primary">
                         <FaEye />
@@ -113,7 +112,7 @@ const ManageShowPage = () => {
             </tbody>
           </table>
         ) : (
-          <h2 className="text-center text-2xl italic text-white/60 mt-5">
+          <h2 className="text-center text-2xl italic theme-text-secondary mt-5">
             No shows available
           </h2>
         )}

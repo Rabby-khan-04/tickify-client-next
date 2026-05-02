@@ -1,20 +1,16 @@
 "use client";
-
 import { useState } from "react";
 import { Clapperboard, X, Plus } from "lucide-react";
 
 const GenresSection = ({ genres, onChange }) => {
   const [input, setInput] = useState("");
 
-  const removeGenre = (id) => {
-    onChange(genres.filter((g) => g.id !== id));
-  };
+  const removeGenre = (id) => onChange(genres.filter((g) => g.id !== id));
 
   const addGenre = () => {
     const trimmed = input.trim();
     if (!trimmed) return;
-    const newGenre = { id: Date.now(), name: trimmed };
-    onChange([...genres, newGenre]);
+    onChange([...genres, { id: Date.now(), name: trimmed }]);
     setInput("");
   };
 
@@ -26,13 +22,11 @@ const GenresSection = ({ genres, onChange }) => {
   };
 
   return (
-    <div className="bg-[#0d120e] border border-white/[0.07] rounded-2xl p-6">
+    <div className="theme-card border theme-border rounded-2xl p-6">
       <div className="flex items-center gap-2 mb-5">
         <Clapperboard className="w-4 h-4 text-primary" strokeWidth={1.8} />
-        <h2 className="text-white font-semibold text-base">Genres</h2>
+        <h2 className="theme-text-primary font-semibold text-base">Genres</h2>
       </div>
-
-      {/* Genre tags */}
       <div className="flex flex-wrap gap-2 mb-4">
         {genres.map((genre) => (
           <span
@@ -49,8 +43,6 @@ const GenresSection = ({ genres, onChange }) => {
           </span>
         ))}
       </div>
-
-      {/* Add input */}
       <div className="flex gap-2">
         <input
           type="text"
@@ -58,7 +50,7 @@ const GenresSection = ({ genres, onChange }) => {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Add genre..."
-          className="flex-1 bg-transparent border border-dashed border-white/20 rounded-xl px-3 py-2 text-white text-xs outline-none focus:border-primary/40 transition-colors placeholder:text-white/20"
+          className="flex-1 bg-transparent border border-dashed border-border-subtle rounded-xl px-3 py-2 theme-text-primary text-xs outline-none focus:border-primary/40 transition-colors placeholder:text-text-faint"
         />
         <button
           onClick={addGenre}

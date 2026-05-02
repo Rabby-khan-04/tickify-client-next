@@ -10,6 +10,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
+import toast from "react-hot-toast";
 import screen from "@/../public/icon/screen.svg";
 
 const SeatPage = () => {
@@ -24,6 +25,7 @@ const SeatPage = () => {
     clearBookingData,
     setBookedSeat,
   } = useBookingStore();
+
   const bookingInfo = {
     theaterId: theater,
     date,
@@ -31,6 +33,7 @@ const SeatPage = () => {
   };
 
   const { bookedSeat, bookedSeatLoading } = useBookedSeats(showId, bookingInfo);
+
   const rowGroup = [
     ["A", "B"],
     ["C", "D"],
@@ -42,12 +45,10 @@ const SeatPage = () => {
 
   const handleBackNavigation = () => {
     clearBookingData();
-    navigate(location.state.from || "/");
+    router.back();
   };
 
-  const handleRemoveSeatSelection = () => {
-    setSelectedSeat([]);
-  };
+  const handleRemoveSeatSelection = () => setSelectedSeat([]);
 
   const handleProceedPayment = () => {
     if (!selectedSeat.length)
@@ -61,11 +62,12 @@ const SeatPage = () => {
   return (
     <div className="relative h-[calc(100vh-120px)] py-16 overflow-y-scroll lg:overflow-y-hidden overflow-x-hidden">
       <BlurCircle top="-100px" right="-100px" />
+
       <section>
         <div className="container-fluid">
           <SectionTitle
             title="Select your seat"
-            className="text-center text-white uppercase"
+            className="text-center theme-text-primary uppercase"
           />
           <div className="max-w-4xl mx-auto text-center">
             <Image
@@ -73,9 +75,9 @@ const SeatPage = () => {
               className="w-4/5 inline-block"
               height={300}
               width={300}
-              alt=""
+              alt="Screen"
             />
-            <p className="text-gray-400 text-sm mb-6">SCREEN SIDE</p>
+            <p className="theme-text-muted text-sm mb-6">SCREEN SIDE</p>
 
             <div className="space-y-2 lg:space-y-8">
               <div className="space-y-2">
@@ -117,9 +119,11 @@ const SeatPage = () => {
                   />
                 ))}
               </div>
+
+              {/* Clear selection */}
               <button
                 onClick={handleRemoveSeatSelection}
-                className="text-dark-light w-sm p-2 rounded-2xl text-center inline-block bg-white hover:bg-red-500 hover:text-primary transition-all duration-200 cursor-pointer"
+                className="theme-text-primary w-sm p-2 rounded-2xl text-center inline-block bg-border-subtle hover:bg-red-500 hover:text-white transition-all duration-200 cursor-pointer"
               >
                 <FaTimes className="inline-block text-xl" />
               </button>
@@ -127,37 +131,37 @@ const SeatPage = () => {
           </div>
         </div>
       </section>
-      <section className="border-t bg-dark-light border-primary-light fixed w-full bottom-0 left-0 right-0 py-6 lg:bg-primary/10">
+
+      {/* Bottom booking bar */}
+      <section className="border-t theme-card border-primary/20 fixed w-full bottom-0 left-0 right-0 py-6 bg-primary/5 backdrop-blur-sm">
         <div className="container-fluid">
           <div className="max-w-5xl mx-auto flex max-md:flex-wrap items-center justify-between max-md:gap-4">
-            <div className="">
-              <h4 className="text-lg uppercase font-medium text-white">
+            <div>
+              <h4 className="text-lg uppercase font-medium theme-text-secondary">
                 TOTAL
               </h4>
-              <p className="font-bold text-[clamp(1.3rem,3vw,2rem)] text-white">
-                ${" "}
-                {price * selectedSeat.length
-                  ? price * selectedSeat.length
-                  : price}
+              <p className="font-bold text-[clamp(1.3rem,3vw,2rem)] theme-text-primary">
+                ${price * selectedSeat.length || price}
               </p>
             </div>
+
             {selectedSeat.length > 0 && (
-              <div className="">
-                <h4 className="text-lg uppercase font-medium text-white">
+              <div>
+                <h4 className="text-lg uppercase font-medium theme-text-secondary">
                   SEAT
                 </h4>
-                <p className="font-bold text-[clamp(1.3rem,3vw,2rem)] text-white">
-                  {selectedSeat.join(",")}
+                <p className="font-bold text-[clamp(1.3rem,3vw,2rem)] theme-text-primary">
+                  {selectedSeat.join(", ")}
                 </p>
               </div>
             )}
 
             <div className="flex items-center max-md:justify-between max-md:w-full gap-4 flex-wrap">
-              <button onClick={handleBackNavigation} className="btn-alt">
+              <button onClick={handleBackNavigation} className="btn-ghost">
                 Back
               </button>
               <button
-                className="btn disabled:bg-gray-500 disabled:pointer-events-none disabled:border-gray-500"
+                className="btn disabled:opacity-50 disabled:pointer-events-none"
                 onClick={handleProceedPayment}
                 disabled={!selectedSeat.length}
               >
@@ -167,6 +171,7 @@ const SeatPage = () => {
           </div>
         </div>
       </section>
+
       <BlurCircle bottom="-100px" left="-100px" />
     </div>
   );

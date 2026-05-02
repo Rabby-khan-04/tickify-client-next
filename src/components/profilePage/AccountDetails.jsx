@@ -66,7 +66,7 @@ const AccountDetails = () => {
       {/* Header */}
       <div className="flex items-center gap-2">
         <svg
-          className="w-5 h-5 text-white/40"
+          className="w-5 h-5 text-text-muted"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -77,11 +77,13 @@ const AccountDetails = () => {
           <line x1="12" y1="8" x2="12" y2="12" />
           <line x1="12" y1="16" x2="12.01" y2="16" />
         </svg>
-        <h2 className="text-white font-semibold text-base">Account Details</h2>
+        <h2 className="theme-text-primary font-semibold text-base">
+          Account Details
+        </h2>
       </div>
 
       {/* Detail rows */}
-      <div className="bg-[#0d120e] border border-white/[0.07] rounded-2xl overflow-hidden divide-y divide-white/[0.07]">
+      <div className="theme-card border theme-border rounded-2xl overflow-hidden divide-y divide-border-subtle">
         {rows.map(({ Icon, label, value, action }) => (
           <div
             key={label}
@@ -91,10 +93,12 @@ const AccountDetails = () => {
               <Icon className="w-4 h-4 text-primary" strokeWidth={1.7} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-medium tracking-[0.12em] uppercase text-white/30 mb-0.5">
+              <p className="text-[10px] font-medium tracking-[0.12em] uppercase text-text-faint mb-0.5">
                 {label}
               </p>
-              <p className="text-white text-sm font-medium truncate">{value}</p>
+              <p className="theme-text-primary text-sm font-medium truncate">
+                {value}
+              </p>
             </div>
             {action && <div className="shrink-0">{action}</div>}
           </div>

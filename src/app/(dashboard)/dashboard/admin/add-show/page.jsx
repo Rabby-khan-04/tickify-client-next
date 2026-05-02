@@ -22,7 +22,7 @@ import { Delete } from "lucide-react";
 import axiosSecure from "@/lib/axios/axiosSecure";
 import SliderNav from "@/components/homePage/banner/SliderNav";
 
-const AddShoPage = () => {
+const AddShowPage = () => {
   const { nowPlayingShows, nowPlayingShowsLoading } = useNowPlayingShow();
   const { theaters, theatersLoading } = useTheaters();
 
@@ -50,7 +50,6 @@ const AddShoPage = () => {
       setSelectedDateTime((prev) => [...prev, { date, showtimes: [time] }]);
     } else {
       const isTimeExist = dateExist.showtimes.includes(time);
-
       if (!isTimeExist) {
         setSelectedDateTime((prev) =>
           prev.map((item) =>
@@ -72,10 +71,7 @@ const AddShoPage = () => {
       prev
         .map((item) =>
           item.date === date
-            ? {
-                ...item,
-                showtimes: item.showtimes.filter((t) => t !== time),
-              }
+            ? { ...item, showtimes: item.showtimes.filter((t) => t !== time) }
             : item,
         )
         .filter((item) => item.showtimes.length > 0),
@@ -116,17 +112,17 @@ const AddShoPage = () => {
   if (nowPlayingShowsLoading || theatersLoading) return <Spinner />;
 
   return (
-    <div className="">
+    <div>
       <div className="relative">
         <SectionTitle title="Add Show" />
         <SliderNav swiper={swiperRef} className="top-0 right-0" />
       </div>
 
       <div className="space-y-6">
-        <div className="">
+        {/* Movie Selection */}
+        <div>
           <h2 className="text-2xl text-primary mb-5">Select A Movie:</h2>
-
-          <div className="text-white group">
+          <div className="theme-text-primary group">
             <Swiper
               onSwiper={setSwiperRef}
               slidesPerView={8.5}
@@ -163,9 +159,9 @@ const AddShoPage = () => {
           </div>
         </div>
 
-        <div className="">
+        {/* Theater Selection */}
+        <div>
           <h2 className="text-2xl text-primary mb-5">Select Theater:</h2>
-
           <div className="space-x-4 space-y-4">
             {theaters.map((theater) => (
               <TheaterPill
@@ -178,9 +174,9 @@ const AddShoPage = () => {
           </div>
         </div>
 
-        <div className="">
-          <h2 className="text-2xl text-primary mb-5">Select Theater:</h2>
-
+        {/* Date & Time + Price */}
+        <div>
+          <h2 className="text-2xl text-primary mb-5">Select Date & Time:</h2>
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="flex items-end gap-2 md:gap-5 flex-wrap"
@@ -189,18 +185,17 @@ const AddShoPage = () => {
               <label
                 htmlFor="price"
                 className={`text-base block ${
-                  errors.price ? "text-red-400" : "text-white/80"
+                  errors.price ? "text-red-400" : "theme-text-secondary"
                 }`}
               >
                 Price*
               </label>
-
               <input
                 type="number"
                 id="price"
                 className={`outline-0 focus:outline-0 border ${
-                  errors.theater ? "border-red-400" : "border-white/50"
-                } rounded-md px-4 py-2 w-full block placeholder:text-white/60 text-white/80`}
+                  errors.price ? "border-red-400" : "border-border-subtle"
+                } rounded-md px-4 py-2 w-full block theme-input theme-text-primary placeholder:text-text-faint`}
                 {...register("price", { required: true })}
               />
             </div>
@@ -209,18 +204,17 @@ const AddShoPage = () => {
               <label
                 htmlFor="datetime"
                 className={`text-base block ${
-                  errors.datetime ? "text-red-400" : "text-white/80"
+                  errors.datetime ? "text-red-400" : "theme-text-secondary"
                 }`}
               >
                 Date & Time*
               </label>
-
               <input
                 type="datetime-local"
                 id="datetime"
                 className={`outline-0 focus:outline-0 border ${
-                  errors.theater ? "border-red-400" : "border-white/50"
-                } rounded-md px-4 py-2 w-full block placeholder:text-white/60 text-white/80`}
+                  errors.datetime ? "border-red-400" : "border-border-subtle"
+                } rounded-md px-4 py-2 w-full block theme-input theme-text-primary placeholder:text-text-faint`}
                 {...register("datetime", { required: true })}
               />
             </div>
@@ -231,38 +225,39 @@ const AddShoPage = () => {
           </form>
         </div>
 
+        {/* Selected DateTime list */}
         {selectedDateTime.length > 0 && (
-          <div className="">
-            <h2 className="text-xl text-white/80 mb-5">
+          <div>
+            <h2 className="text-xl theme-text-secondary mb-5">
               Selected Date & Time:
             </h2>
-
             <div className="space-y-2">
               {selectedDateTime.map((dateAndTime) => (
-                <div key={dateAndTime.date} className="text-white/80 space-y-1">
-                  <div className="flex items-center gap-2 ">
+                <div
+                  key={dateAndTime.date}
+                  className="theme-text-secondary space-y-1"
+                >
+                  <div className="flex items-center gap-2">
                     <SlCalender />
                     <h3>{dateAndTime.date}</h3>
                   </div>
-
                   <div className="flex flex-wrap items-center gap-2">
                     {dateAndTime.showtimes.map((time) => (
                       <div
                         key={time}
-                        className="inline-flex items-center gap-2 py-1 px-2 border rounded-md border-primary/60 group hover:border-primary"
+                        className="inline-flex items-center gap-2 py-1 px-2 border rounded-md border-primary/60 group hover:border-primary cursor-pointer"
                         onClick={() =>
                           handleDeleteDateTime(dateAndTime.date, time)
                         }
                       >
                         <p>{time}</p>
-                        <Delete className="text-primary/60 group-hover:text-primary cursor-pointer" />
+                        <Delete className="text-primary/60 group-hover:text-primary" />
                       </div>
                     ))}
                   </div>
                 </div>
               ))}
             </div>
-
             <button className="btn mt-5" onClick={handleAddShow}>
               Add Show
             </button>
@@ -273,4 +268,4 @@ const AddShoPage = () => {
   );
 };
 
-export default AddShoPage;
+export default AddShowPage;
