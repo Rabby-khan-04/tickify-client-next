@@ -33,18 +33,22 @@ const Steps = () => {
       {steps.map(({ Icon, num, name, desc }) => (
         <div
           key={num}
-          className="group bg-[#0d120e] border border-white/[0.07] rounded-2xl p-8 flex flex-col items-center text-center gap-5 hover:border-primary/20 transition-colors duration-300"
+          className="group bg-bg-card border border-border-subtle rounded-2xl p-8 flex flex-col items-center text-center gap-5 hover:border-primary/20 [transition:border-color_300ms_ease,background-color_300ms_ease]"
         >
-          <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center group-hover:bg-primary/15 [transition:background-color_300ms_ease]">
             <Icon className="w-6 h-6 text-primary" strokeWidth={1.6} />
           </div>
           <div className="flex flex-col gap-1.5">
-            <p className="text-[10px] font-medium tracking-[0.12em] uppercase text-white/30">
+            <p className="text-[10px] font-medium tracking-[0.12em] uppercase text-text-muted">
               Step {num}
             </p>
-            <h3 className="text-white font-semibold text-base">{name}</h3>
+            <h3 className="text-text-primary font-semibold text-base">
+              {name}
+            </h3>
           </div>
-          <p className="text-white/40 text-base leading-relaxed">{desc}</p>
+          <p className="text-text-secondary text-base leading-relaxed">
+            {desc}
+          </p>
         </div>
       ))}
     </div>

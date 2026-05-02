@@ -8,7 +8,7 @@ import MainSectionTitle from "@/components/shared/mainSectionTitle/MainSectionTi
 const HowItWorksPage = () => {
   return (
     <div>
-      {/* Hero */}
+      {/* Hero — always over dark image, keep white text */}
       <section
         className="relative h-[70vh] flex flex-col items-center justify-center text-center overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${theaterImg.src})` }}
@@ -16,9 +16,8 @@ const HowItWorksPage = () => {
         <div className="absolute inset-0 bg-[#060d08]/85">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(29,231,130,0.07)_0%,transparent_65%)]" />
         </div>
-
         <div className="relative z-10 px-6 flex flex-col items-start max-w-xl text-center">
-          <h1 className="text-primary  text-[clamp(2rem,3vw,80px)] font-bold mb-4">
+          <h1 className="text-primary text-[clamp(2rem,3vw,80px)] font-bold mb-4">
             Elevate Your Cinema Night
           </h1>
           <p className="text-white/55 text-base leading-relaxed">
@@ -33,10 +32,10 @@ const HowItWorksPage = () => {
         <BlurCircle top="0px" right="-200px" />
         <div className="container-fluid">
           <div className="flex flex-col items-center text-center mb-12">
-            <p className="text-[11px] font-medium tracking-[0.14em] uppercase text-white/35 mb-3">
+            <p className="text-[11px] font-medium tracking-[0.14em] uppercase text-text-muted mb-3">
               Experience Flow
             </p>
-            <h2 className="text-white text-[clamp(1.6rem,3vw,2rem)] font-medium mb-4">
+            <h2 className="text-text-primary text-[clamp(1.6rem,3vw,2rem)] font-medium mb-4">
               Book Your Ticket in 4 Easy Steps
             </h2>
             <div className="w-12 h-0.5 bg-primary rounded-full" />
