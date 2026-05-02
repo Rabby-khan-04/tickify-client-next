@@ -7,6 +7,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   updatePassword,
+  verifyBeforeUpdateEmail,
 } from "firebase/auth";
 
 import auth from "@/lib/firebase/firebase.config";
@@ -36,6 +37,11 @@ export const loginWithGoogle = () => {
 export const changeUserPassword = (newPassword) => {
   const user = auth.currentUser;
   return updatePassword(user, newPassword);
+};
+
+export const updateUserEmail = (email) => {
+  const user = auth.currentUser;
+  return verifyBeforeUpdateEmail(user, email);
 };
 
 export const logoutUser = async () => {

@@ -85,7 +85,7 @@ const AccountDetails = () => {
         {rows.map(({ Icon, label, value, action }) => (
           <div
             key={label}
-            className="flex items-center gap-4 px-6 py-5 hover:bg-white/[0.02] transition-colors"
+            className="flex items-center gap-4 px-6 py-5 hover:bg-white/2 transition-colors"
           >
             <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0">
               <Icon className="w-4 h-4 text-primary" strokeWidth={1.7} />

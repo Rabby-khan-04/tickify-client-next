@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { formatDate } from "@/utils/dateFormatter";
 import useAuthStore from "@/store/authStore";
 
 const ProfileHero = () => {
@@ -25,7 +23,7 @@ const ProfileHero = () => {
             className="object-cover w-full h-full"
           />
         </div>
-        {/* online dot */}
+        {/* Online dot */}
         <span className="absolute bottom-2 right-2 w-4 h-4 bg-primary rounded-full border-2 border-[#0d120e]" />
       </div>
 
@@ -39,24 +37,10 @@ const ProfileHero = () => {
             </span>
           )}
         </div>
-
         <p className="text-white/45 text-sm">{email}</p>
-
-        {/* Actions */}
-        <div className="flex items-center gap-3 mt-2 flex-wrap">
-          <Link
-            href="/profile/edit"
-            className="bg-primary text-[#061008] text-sm font-semibold px-5 py-2.5 rounded-xl hover:opacity-85 transition-opacity"
-          >
-            Edit Profile
-          </Link>
-          <Link
-            href="/profile/security"
-            className="border border-white/15 text-white text-sm font-medium px-5 py-2.5 rounded-xl hover:bg-white/5 transition-colors"
-          >
-            Security Settings
-          </Link>
-        </div>
+        <p className="text-white/30 text-xs mt-1">
+          Update your name, photo, email and password in the section below.
+        </p>
       </div>
 
       {/* Stats */}

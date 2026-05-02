@@ -8,6 +8,7 @@ const useAuthStore = create((set) => ({
   isAdmin: false,
 
   setAuthState: (data) => set(data),
+  setUserInfo: (userInfo) => set({ userInfo }),
 }));
 
 export default useAuthStore;
