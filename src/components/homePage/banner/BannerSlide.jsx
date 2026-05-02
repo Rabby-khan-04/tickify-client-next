@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Calendar, Play, Star, Ticket } from "lucide-react";
 import { formatFullDate } from "@/utils/dateFormatter";
+import toast from "react-hot-toast";
 
 const BannerSlide = ({ show }) => {
   const { _id, movie } = show;
@@ -15,6 +16,10 @@ const BannerSlide = ({ show }) => {
     vote_average,
     release_date,
   } = movie;
+
+  function handleTrailerClick() {
+    toast("Currenlty not available on TMDB API", { icon: "⚠️" });
+  }
 
   return (
     <div
@@ -59,10 +64,10 @@ const BannerSlide = ({ show }) => {
               <span>Get Ticket</span>
             </Link>
 
-            <Link href="/" className="btn-ghost">
+            <button onClick={handleTrailerClick} className="btn-ghost">
               <Play />
               <span>Trailer</span>
-            </Link>
+            </button>
           </div>
         </div>
       </div>

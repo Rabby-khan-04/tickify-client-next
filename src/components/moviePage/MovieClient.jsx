@@ -17,6 +17,7 @@ import {
 } from "@/utils/dateFormatter";
 import useAuthStore from "@/store/authStore";
 import useFavorites from "@/hooks/useFavorites";
+import RelatedMovies from "./Relatedmovies";
 
 const MovieClient = ({ movieDetails, showData }) => {
   const queryClient = useQueryClient(); // ← add this
@@ -29,6 +30,9 @@ const MovieClient = ({ movieDetails, showData }) => {
   const favoriteIds = new Set(favorites.map((fav) => fav._id));
   const isFavorite = favoriteIds.has(_id);
 
+  function handleTrailerClick() {
+    toast("Currenlty not available on TMDB API", { icon: "⚠️" });
+  }
   if (!movieDetails) return null;
 
   const {
@@ -61,7 +65,7 @@ const MovieClient = ({ movieDetails, showData }) => {
     }
   };
 
-  const noShow = () => toast("No show available", { icon: "⚠️" });
+  console.log(genres);
 
   return (
     <>
@@ -104,22 +108,18 @@ const MovieClient = ({ movieDetails, showData }) => {
             </div>
 
             <div className="flex items-center gap-6">
-              {showData?.theaters?.length ? (
+              {showData?.theaters?.length && (
                 <Link
                   href={`/showtime/${showData._id}`}
                   className="btn-gradient"
                 >
                   <Ticket /> Get Ticket
                 </Link>
-              ) : (
-                <button onClick={noShow} className="btn-gradient">
-                  <Ticket /> Get Ticket
-                </button>
               )}
 
-              <Link href="/" className="btn-ghost">
+              <button onClick={handleTrailerClick} className="btn-ghost">
                 <Play /> Trailer
-              </Link>
+              </button>
 
               <button
                 onClick={addFavorite}
@@ -137,7 +137,7 @@ const MovieClient = ({ movieDetails, showData }) => {
       </section>
 
       {/* CAST + DETAILS */}
-      <section className="py-32 relative overflow-x-hidden">
+      <section className="p-yaxis relative overflow-x-hidden">
         <BlurCircle top="0" right="-150px" />
         <BlurCircle top="0" left="-200px" />
 
@@ -183,6 +183,8 @@ const MovieClient = ({ movieDetails, showData }) => {
           </div>
         </div>
       </section>
+
+      <RelatedMovies genres={genres} currentMovieId={_id} />
     </>
   );
 };

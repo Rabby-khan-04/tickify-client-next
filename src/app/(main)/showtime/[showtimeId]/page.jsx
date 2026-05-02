@@ -121,6 +121,10 @@ const ShowtimePage = () => {
     setSelectedTime(currTime);
   };
 
+  function handleTrailerClick() {
+    toast("Currenlty not available on TMDB API", { icon: "⚠️" });
+  }
+
   const handleProceed = () => {
     if (!selectedTheater || !selectedDate || !selectedTime || !selectedPrice) {
       toast("Select Theater, Date and Time", { icon: "⚠️" });

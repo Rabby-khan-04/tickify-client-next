@@ -10,13 +10,14 @@ import "swiper/css/pagination";
 import BlurCircle from "@/components/shared/blurCircle/BlurCircle";
 import SectionTitle from "@/components/shared/sectionTitle/SectionTitle";
 import SliderNav from "../banner/SliderNav";
-import MovieCard from "@/components/shared/movie/MovieCard";
+import MovieCard from "@/components/moviesPage/Moviecard";
+// import MovieCard from "@/components/shared/movie/MovieCard";
 
 const UpcomingMovies = ({ upcomingMovies = [] }) => {
   const [swiperRef, setSwiperRef] = useState(null);
 
   return (
-    <section className="p-top relative overflow-hidden">
+    <section className="p-yaxis relative overflow-hidden">
       <BlurCircle bottom="0" left="-200px" />
 
       <div className="container-fluid">
@@ -36,8 +37,10 @@ const UpcomingMovies = ({ upcomingMovies = [] }) => {
           modules={[Grid, Autoplay, Pagination]}
           breakpoints={{
             0: { slidesPerView: 1, grid: { rows: 1 } },
-            768: { slidesPerView: 2, grid: { rows: 2 } },
-            1024: { slidesPerView: 3, grid: { rows: 2 } },
+            640: { slidesPerView: 2, grid: { rows: 1 } },
+            720: { slidesPerView: 3, grid: { rows: 1 } },
+            1024: { slidesPerView: 4, grid: { rows: 1 } },
+            1280: { slidesPerView: 5, grid: { rows: 1 } },
           }}
         >
           {upcomingMovies.map((item) => (

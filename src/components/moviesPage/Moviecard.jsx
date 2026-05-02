@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 
 const MovieCard = ({ movie, view = "grid" }) => {
   const {
-    _id,
     movieId,
     title,
     poster_path,
@@ -121,9 +120,16 @@ const MovieCard = ({ movie, view = "grid" }) => {
           <h3 className="text-white font-semibold text-base leading-snug group-hover:text-primary transition-colors line-clamp-1">
             {title}
           </h3>
-          {overview && (
+          {overview ? (
             <p className="text-white/40 text-xs mt-2 line-clamp-2 leading-relaxed">
               {overview}
+            </p>
+          ) : (
+            <p className="text-white/50 text-xs line-clamp-2 mt-1 leading-relaxed">
+              A movie is a visual storytelling medium combining narrative,
+              performance, sound, and cinematography to entertain, inspire
+              emotions, and communicate ideas across cultures and audiences
+              worldwide.
             </p>
           )}
         </div>
