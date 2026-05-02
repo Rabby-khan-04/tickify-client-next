@@ -5,7 +5,7 @@ const SeatLayout = ({
   column = 10,
   setSelectedSeat,
   selectedSeat,
-  bookedSeat,
+  bookedSeat = [], // ← default here
 }) => {
   const handleSeatSelection = (id) => {
     if (!selectedSeat.includes(id) && selectedSeat.length > 4) {
@@ -22,7 +22,6 @@ const SeatLayout = ({
         const seatId = `${row}${col + 1}`;
         const isBooked = bookedSeat.includes(seatId);
         const isSelected = selectedSeat.includes(seatId);
-
         return (
           <button
             key={seatId}

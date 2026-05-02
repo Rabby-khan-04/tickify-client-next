@@ -8,6 +8,8 @@ import UpcomingMovies from "@/components/homePage/upcomingMovies/UpcomingMovies"
 import WhyChooseUs from "@/components/homePage/whyChooseUs/WhyChooseUs";
 import { fetchUpcomingShows } from "@/services/Shows.service";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const upcomingShows = await fetchUpcomingShows();
   const upcomingMovies = await fetchUpcomingShows();

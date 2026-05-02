@@ -21,7 +21,7 @@ const ProfileHero = () => {
           />
         </div>
         {/* Online dot */}
-        <span className="absolute bottom-2 right-2 w-4 h-4 bg-primary rounded-full border-2 border-[var(--bg-card)]" />
+        <span className="absolute bottom-2 right-2 w-4 h-4 bg-primary rounded-full border-2 border-bg-card" />
       </div>
 
       {/* Info */}
