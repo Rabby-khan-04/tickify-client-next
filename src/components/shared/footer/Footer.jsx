@@ -23,16 +23,14 @@ const Footer = () => {
           <h2 className="text-2xl font-medium mb-4 text-white">More</h2>
           <ul className="text-sm space-y-2 text-white/70">
             <li>
-              <Link href="/">Career</Link>
+              <Link href="/how-it-works">How it Works</Link>
             </li>
             <li>
               <Link href="/contact">Contact</Link>
             </li>
+
             <li>
-              <Link href="/">News</Link>
-            </li>
-            <li>
-              <Link href="/">Privacy & policy</Link>
+              <Link href="/privacy-policy">Privacy & policy</Link>
             </li>
           </ul>
         </div>
@@ -57,24 +55,42 @@ const Footer = () => {
         <div>
           <h2 className="text-2xl font-medium mb-4 text-white">Follow Us</h2>
           <ul className="text-sm space-y-2 text-white/70">
-            <li className="flex items-center gap-2">
-              <FaFacebook className="text-xl" />
-              <span>Facebook</span>
+            <li>
+              <a
+                href="https://www.facebook.com/rabbykhan04"
+                className="flex items-center gap-2"
+                target="_blank"
+              >
+                <FaFacebook className="text-xl" />
+                <span>Facebook</span>
+              </a>
             </li>
-            <li className="flex items-center gap-2">
-              <FaInstagram className="text-xl" />
-              <span>Instagram</span>
+            <li>
+              <a
+                href="https://www.instagram.com/rabbykhan04"
+                className="flex items-center gap-2"
+                target="_blank"
+              >
+                <FaInstagram className="text-xl" />
+                <span>Instagram</span>
+              </a>
             </li>
-            <li className="flex items-center gap-2">
-              <FaTwitter className="text-xl" />
-              <span>Twitter</span>
+            <li>
+              <a
+                href="https://x.com/RabbyKh17969501"
+                className="flex items-center gap-2"
+                target="_blank"
+              >
+                <FaTwitter className="text-xl" />
+                <span>Twitter</span>
+              </a>
             </li>
           </ul>
         </div>
       </div>
 
       {/* Bottom bar */}
-      <div className="bg-dark py-3">
+      <div className="bg-primary/10 py-3">
         <div className="container-fluid flex items-center justify-center sm:justify-between flex-wrap gap-2 text-white/70">
           <p>
             &copy; All Rights Reserved By <span className="italic">me</span>
