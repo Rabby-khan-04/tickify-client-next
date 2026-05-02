@@ -14,8 +14,8 @@ const subjects = [
 ];
 
 const inputBase =
-  "w-full bg-[#0d120e] border rounded-xl px-4 py-3 text-white text-base placeholder:text-white/25 outline-none hover:border-white/20 transition-colors";
-const inputNormal = `${inputBase} border-white/10 focus:border-primary/40`;
+  "w-full bg-bg-card border rounded-xl px-4 py-3 text-text-primary text-base placeholder:text-text-faint outline-none hover:border-border-subtle transition-colors";
+const inputNormal = `${inputBase} border-border-subtle focus:border-primary/40`;
 const inputError = `${inputBase} border-red-500/60 focus:border-red-500/80 bg-red-500/5`;
 
 const ContactForm = () => {
@@ -47,18 +47,9 @@ const ContactForm = () => {
 
   useEffect(() => {
     if (!isSuccess) return;
-
-    if (dismissTimerRef.current) {
-      clearTimeout(dismissTimerRef.current);
-    }
-
-    dismissTimerRef.current = setTimeout(() => {
-      resetMutation();
-    }, 5000);
-
-    return () => {
-      clearTimeout(dismissTimerRef.current);
-    };
+    if (dismissTimerRef.current) clearTimeout(dismissTimerRef.current);
+    dismissTimerRef.current = setTimeout(() => resetMutation(), 5000);
+    return () => clearTimeout(dismissTimerRef.current);
   }, [isSuccess, resetMutation]);
 
   const showSuccess = isSuccess && !dismissed;
@@ -81,12 +72,12 @@ const ContactForm = () => {
   };
 
   return (
-    <div className="bg-[#0d120e] border border-white/[0.07] rounded-2xl p-8 lg:p-10">
-      <h2 className="text-white text-[clamp(1.6rem,3vw,2rem)] font-medium mb-8">
+    <div className="theme-card border theme-border rounded-2xl p-8 lg:p-10">
+      <h2 className="theme-text-primary text-[clamp(1.6rem,3vw,2rem)] font-medium mb-8">
         Send a Message
       </h2>
 
-      {/* Success banner — auto-dismisses after 5s */}
+      {/* Success banner */}
       {showSuccess && (
         <div
           role="alert"
@@ -137,7 +128,10 @@ const ContactForm = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {/* Name */}
           <div className="flex flex-col gap-2">
-            <label htmlFor="contact-name" className="text-white/55 text-sm">
+            <label
+              htmlFor="contact-name"
+              className="theme-text-secondary text-sm"
+            >
               Full Name <span aria-hidden="true">*</span>
             </label>
             <input
@@ -174,7 +168,10 @@ const ContactForm = () => {
 
           {/* Email */}
           <div className="flex flex-col gap-2">
-            <label htmlFor="contact-email" className="text-white/55 text-sm">
+            <label
+              htmlFor="contact-email"
+              className="theme-text-secondary text-sm"
+            >
               Email Address <span aria-hidden="true">*</span>
             </label>
             <input
@@ -210,7 +207,10 @@ const ContactForm = () => {
 
         {/* Subject */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="contact-subject" className="text-white/55 text-sm">
+          <label
+            htmlFor="contact-subject"
+            className="theme-text-secondary text-sm"
+          >
             Subject <span aria-hidden="true">*</span>
           </label>
           <div className="relative">
@@ -222,13 +222,13 @@ const ContactForm = () => {
               {...register("subject", { required: "Please select a subject." })}
             >
               {subjects.map((s) => (
-                <option key={s} value={s} className="bg-[#0d120e]">
+                <option key={s} value={s} className="bg-bg-card">
                   {s}
                 </option>
               ))}
             </select>
             <svg
-              className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none"
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-faint pointer-events-none"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -247,7 +247,10 @@ const ContactForm = () => {
 
         {/* Message */}
         <div className="flex flex-col gap-2">
-          <label htmlFor="contact-message" className="text-white/55 text-sm">
+          <label
+            htmlFor="contact-message"
+            className="theme-text-secondary text-sm"
+          >
             Message <span aria-hidden="true">*</span>
           </label>
           <textarea
@@ -272,7 +275,7 @@ const ContactForm = () => {
               },
             })}
           />
-          <p id="contact-message-hint" className="text-xs text-white/30">
+          <p id="contact-message-hint" className="text-xs theme-text-faint">
             Min 10 characters, max 1000.
           </p>
           {errors.message && (
@@ -291,11 +294,11 @@ const ContactForm = () => {
           type="submit"
           disabled={isPending}
           aria-busy={isPending}
-          className="w-full bg-primary text-[#061008] font-semibold text-base py-4 rounded-xl hover:opacity-85 active:scale-[0.99] transition-all mt-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+          className="w-full bg-primary text-dark font-semibold text-base py-4 rounded-xl hover:opacity-85 active:scale-[0.99] transition-all mt-1 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
         >
           {isPending ? (
             <>
-              <span className="w-4 h-4 rounded-full border-2 border-[#061008] border-t-transparent animate-spin" />
+              <span className="w-4 h-4 rounded-full border-2 border-dark border-t-transparent animate-spin" />
               Sending...
             </>
           ) : (

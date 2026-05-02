@@ -29,27 +29,27 @@ const SupportTopics = () => {
     <section className="py-20 relative z-30 overflow-x-hidden">
       <BlurCircle bottom="0px" left="-200px" />
       <div className="container-fluid">
-        {/* Header */}
         <MainSectionTitle
           subtitle="Need Help Fast?"
           title="Support Topics"
           description="Find quick answers to the most common questions about booking, payments, cancellations, and account management. Everything you need to solve issues faster without waiting for support."
         />
 
-        {/* Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {topics.map(({ Icon, title, desc, href }) => (
             <div
               key={title}
-              className="group bg-[#0d120e] border border-white/[0.07] rounded-2xl p-8 flex flex-col items-center text-center gap-5 hover:border-primary/20 transition-colors duration-300"
+              className="group theme-card border theme-border rounded-2xl p-8 flex flex-col items-center text-center gap-5 hover:border-primary/20 transition-colors duration-300"
             >
               <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/15 flex items-center justify-center group-hover:bg-primary/15 transition-colors">
                 <Icon className="w-6 h-6 text-primary" strokeWidth={1.6} />
               </div>
 
               <div className="flex flex-col gap-2">
-                <h3 className="text-white font-semibold text-base">{title}</h3>
-                <p className="text-white/40 text-base leading-relaxed">
+                <h3 className="theme-text-primary font-semibold text-base">
+                  {title}
+                </h3>
+                <p className="theme-text-faint text-base leading-relaxed">
                   {desc}
                 </p>
               </div>

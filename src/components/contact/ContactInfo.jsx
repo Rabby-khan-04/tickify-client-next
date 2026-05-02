@@ -32,7 +32,7 @@ const ContactInfo = () => {
       {cards.map(({ Icon, title, desc, detail, isLink, href }) => (
         <div
           key={title}
-          className="bg-[#0d120e] border border-white/[0.07] rounded-2xl p-7 flex gap-5 hover:border-primary/20 transition-colors duration-300"
+          className="theme-card border theme-border rounded-2xl p-7 flex gap-5 hover:border-primary/20 transition-colors duration-300"
         >
           <div className="w-11 h-11 rounded-xl bg-primary/10 border border-primary/15 flex items-center justify-center shrink-0 mt-0.5">
             <Icon className="w-5 h-5 text-primary" strokeWidth={1.7} />
@@ -40,9 +40,9 @@ const ContactInfo = () => {
 
           <div className="flex flex-col gap-1.5">
             <h3 className="text-primary font-semibold text-base">{title}</h3>
-
-            <p className="text-white/45 text-base leading-relaxed">{desc}</p>
-
+            <p className="theme-text-secondary text-base leading-relaxed">
+              {desc}
+            </p>
             {isLink ? (
               <a
                 href={href}
@@ -51,7 +51,7 @@ const ContactInfo = () => {
                 {detail}
               </a>
             ) : (
-              <p className="text-white/60 text-sm leading-relaxed mt-1 whitespace-pre-line">
+              <p className="theme-text-secondary text-sm leading-relaxed mt-1 whitespace-pre-line">
                 {detail}
               </p>
             )}
