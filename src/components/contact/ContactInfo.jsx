@@ -5,9 +5,9 @@ const cards = [
     Icon: Mail,
     title: "Email Support",
     desc: "Our support team typically responds within 2 hours during business hours.",
-    detail: "support@tickify.com",
+    detail: "ajrabbyk72@gmail.com",
     isLink: true,
-    href: "mailto:support@tickify.com",
+    href: "mailto:ajrabbyk72@gmail.com",
   },
   {
     Icon: Phone,
@@ -15,7 +15,7 @@ const cards = [
     desc: "Available Mon-Fri, 9am – 10pm for immediate booking assistance.",
     detail: "+1 (888) TICKIFY-NOW",
     isLink: true,
-    href: "tel:+18888425439",
+    href: "tel:+8801647211326",
   },
   {
     Icon: MapPin,

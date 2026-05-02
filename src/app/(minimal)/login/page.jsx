@@ -24,11 +24,10 @@ const DEMO_ACCOUNTS = {
   },
 };
 
-console.log(DEMO_ACCOUNTS);
-
 const Login = () => {
   const [toggle, setToggle] = useState(false);
   const [demoLoading, setDemoLoading] = useState(null); // "user" | "admin" | null
+  const [serverError, setServerError] = useState("");
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -39,9 +38,10 @@ const Login = () => {
     handleSubmit,
     setValue,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm({ mode: "onTouched" });
 
   const onSubmit = async (data) => {
+    setServerError("");
     const { email, password } = data;
     try {
       await loginUser(email, password);
@@ -49,13 +49,17 @@ const Login = () => {
       router.push(from);
     } catch (error) {
       console.error(`Login ERROR: ${error}`);
-      toast.error(error.message || "Login failed!");
+      const msg =
+        error?.code === "auth/invalid-credential"
+          ? "Invalid email or password."
+          : error.message || "Login failed. Please try again.";
+      setServerError(msg);
     }
   };
 
   const handleDemoLogin = async (role) => {
+    setServerError("");
     const { email, password } = DEMO_ACCOUNTS[role];
-    // Fill the inputs visually
     setValue("email", email);
     setValue("password", password);
     setDemoLoading(role);
@@ -65,11 +69,14 @@ const Login = () => {
       router.push(from);
     } catch (error) {
       console.error(`Demo login ERROR: ${error}`);
-      toast.error(error.message || "Demo login failed!");
+      const msg = error.message || "Demo login failed.";
+      setServerError(msg);
     } finally {
       setDemoLoading(null);
     }
   };
+
+  const isBusy = isSubmitting || !!demoLoading;
 
   return (
     <section className="h-screen overflow-hidden md:grid md:grid-cols-2">
@@ -97,11 +104,16 @@ const Login = () => {
           <SectionTitle title="Welcome back" className="text-dark" />
 
           {/* Demo login buttons */}
-          <div className="flex gap-2.5 mb-5">
+          <div
+            className="flex gap-2.5 mb-5"
+            role="group"
+            aria-label="Demo account login"
+          >
             <button
               type="button"
-              disabled={!!demoLoading || isSubmitting}
+              disabled={isBusy}
               onClick={() => handleDemoLogin("user")}
+              aria-busy={demoLoading === "user"}
               className="flex-1 flex items-center justify-center gap-2 border border-dark/20 rounded-md py-2 text-sm font-medium text-text-muted hover:border-primary hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <span className="flex items-center justify-center w-3.5 h-3.5 shrink-0">
@@ -116,8 +128,9 @@ const Login = () => {
 
             <button
               type="button"
-              disabled={!!demoLoading || isSubmitting}
+              disabled={isBusy}
               onClick={() => handleDemoLogin("admin")}
+              aria-busy={demoLoading === "admin"}
               className="flex-1 flex items-center justify-center gap-2 border border-dark/20 rounded-md py-2 text-sm font-medium text-text-muted hover:border-secondary hover:text-secondary hover:bg-secondary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <span className="flex items-center justify-center w-3.5 h-3.5 shrink-0">
@@ -132,42 +145,103 @@ const Login = () => {
           </div>
 
           {/* Divider */}
-          <div className="flex items-center gap-3 mb-5">
+          <div className="flex items-center gap-3 mb-5" role="separator">
             <div className="flex-1 h-px bg-dark/10" />
             <span className="text-xs text-text-muted">or login manually</span>
             <div className="flex-1 h-px bg-dark/10" />
           </div>
 
+          {/* Server-side error banner */}
+          {serverError && (
+            <div
+              role="alert"
+              aria-live="assertive"
+              className="mb-4 px-4 py-2.5 bg-red-50 border border-red-200 rounded-md text-sm text-red-600"
+            >
+              {serverError}
+            </div>
+          )}
+
           <form
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-2 md:space-y-4"
+            noValidate
           >
             {/* Email */}
             <div className="flex flex-col gap-1 md:gap-2">
-              <label className="text-base text-text-muted">Email*</label>
+              <label
+                htmlFor="login-email"
+                className="text-base text-text-muted"
+              >
+                Email <span aria-hidden="true">*</span>
+              </label>
               <input
+                id="login-email"
                 type="email"
-                className="border border-dark/50 rounded-md px-4 py-2 text-dark placeholder:text-dark"
+                autoComplete="email"
+                aria-required="true"
+                aria-invalid={!!errors.email}
+                aria-describedby={
+                  errors.email ? "login-email-error" : undefined
+                }
+                className={`border rounded-md px-4 py-2 text-dark placeholder:text-dark transition-colors ${
+                  errors.email ? "border-red-400 bg-red-50" : "border-dark/50"
+                }`}
                 placeholder="Enter your email"
-                {...register("email", { required: true })}
+                {...register("email", {
+                  required: "Email is required.",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                    message: "Please enter a valid email address.",
+                  },
+                })}
               />
               {errors.email && (
-                <p className="text-xs text-red-500">Email is required!!</p>
+                <p
+                  id="login-email-error"
+                  role="alert"
+                  className="text-xs text-red-500"
+                >
+                  {errors.email.message}
+                </p>
               )}
             </div>
 
             {/* Password */}
             <div className="flex flex-col gap-1 md:gap-2">
-              <label className="text-base text-text-muted">Password*</label>
+              <label
+                htmlFor="login-password"
+                className="text-base text-text-muted"
+              >
+                Password <span aria-hidden="true">*</span>
+              </label>
               <div className="relative">
                 <input
+                  id="login-password"
                   type={toggle ? "text" : "password"}
-                  className="border border-dark/50 rounded-md px-4 py-2 text-dark placeholder:text-dark w-full"
+                  autoComplete="current-password"
+                  aria-required="true"
+                  aria-invalid={!!errors.password}
+                  aria-describedby={
+                    errors.password ? "login-password-error" : undefined
+                  }
+                  className={`border rounded-md px-4 py-2 text-dark placeholder:text-dark w-full transition-colors ${
+                    errors.password
+                      ? "border-red-400 bg-red-50"
+                      : "border-dark/50"
+                  }`}
                   placeholder="Enter your password"
-                  {...register("password", { required: true })}
+                  {...register("password", {
+                    required: "Password is required.",
+                    minLength: {
+                      value: 6,
+                      message: "Password must be at least 6 characters.",
+                    },
+                  })}
                 />
                 <button
                   type="button"
+                  aria-label={toggle ? "Hide password" : "Show password"}
                   className="absolute right-2.5 top-2.5 text-dark cursor-pointer"
                   onClick={() => setToggle((prev) => !prev)}
                 >
@@ -175,16 +249,27 @@ const Login = () => {
                 </button>
               </div>
               {errors.password && (
-                <p className="text-xs text-red-500">Password is required!!</p>
+                <p
+                  id="login-password-error"
+                  role="alert"
+                  className="text-xs text-red-500"
+                >
+                  {errors.password.message}
+                </p>
               )}
             </div>
 
-            <input
+            <button
               type="submit"
-              disabled={isSubmitting || !!demoLoading}
-              className="w-full py-2 bg-primary text-white rounded-md text-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-              value={isSubmitting ? "Logging in..." : "Login"}
-            />
+              disabled={isBusy}
+              aria-busy={isSubmitting}
+              className="w-full py-2 bg-primary text-white rounded-md text-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-opacity"
+            >
+              {isSubmitting && (
+                <span className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin block" />
+              )}
+              {isSubmitting ? "Logging in..." : "Login"}
+            </button>
           </form>
 
           <SocialLogin />
