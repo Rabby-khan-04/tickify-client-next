@@ -4,7 +4,7 @@ import logo from "@/../public/brand/logo.png";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import SectionTitle from "@/components/shared/SectionTitle/SectionTitle";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, User, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
@@ -13,8 +13,22 @@ import { loginUser } from "@/services/Auth.service";
 import BlurCircle from "@/components/shared/blurCircle/BlurCircle";
 import SocialLogin from "@/components/auth/Sociallogin";
 
+const DEMO_ACCOUNTS = {
+  user: {
+    email: process.env.NEXT_PUBLIC_DEMO_USER_EMAIL,
+    password: process.env.NEXT_PUBLIC_DEMO_USER_PASSWORD,
+  },
+  admin: {
+    email: process.env.NEXT_PUBLIC_DEMO_ADMIN_EMAIL,
+    password: process.env.NEXT_PUBLIC_DEMO_ADMIN_PASSWORD,
+  },
+};
+
+console.log(DEMO_ACCOUNTS);
+
 const Login = () => {
   const [toggle, setToggle] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(null); // "user" | "admin" | null
 
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -23,7 +37,8 @@ const Login = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    setValue,
+    formState: { errors, isSubmitting },
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -35,6 +50,24 @@ const Login = () => {
     } catch (error) {
       console.error(`Login ERROR: ${error}`);
       toast.error(error.message || "Login failed!");
+    }
+  };
+
+  const handleDemoLogin = async (role) => {
+    const { email, password } = DEMO_ACCOUNTS[role];
+    // Fill the inputs visually
+    setValue("email", email);
+    setValue("password", password);
+    setDemoLoading(role);
+    try {
+      await loginUser(email, password);
+      toast.success(`Logged in as demo ${role}!`);
+      router.push(from);
+    } catch (error) {
+      console.error(`Demo login ERROR: ${error}`);
+      toast.error(error.message || "Demo login failed!");
+    } finally {
+      setDemoLoading(null);
     }
   };
 
@@ -62,6 +95,48 @@ const Login = () => {
 
         <div className="max-md:bg-white max-md:py-8 max-md:px-6 max-md:rounded-xl max-w-xl w-full">
           <SectionTitle title="Welcome back" className="text-dark" />
+
+          {/* Demo login buttons */}
+          <div className="flex gap-2.5 mb-5">
+            <button
+              type="button"
+              disabled={!!demoLoading || isSubmitting}
+              onClick={() => handleDemoLogin("user")}
+              className="flex-1 flex items-center justify-center gap-2 border border-dark/20 rounded-md py-2 text-sm font-medium text-text-muted hover:border-primary hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              <span className="flex items-center justify-center w-3.5 h-3.5 shrink-0">
+                {demoLoading === "user" ? (
+                  <span className="w-3.5 h-3.5 rounded-full border-2 border-current border-t-transparent animate-spin block" />
+                ) : (
+                  <User className="w-3.5 h-3.5" />
+                )}
+              </span>
+              Demo User
+            </button>
+
+            <button
+              type="button"
+              disabled={!!demoLoading || isSubmitting}
+              onClick={() => handleDemoLogin("admin")}
+              className="flex-1 flex items-center justify-center gap-2 border border-dark/20 rounded-md py-2 text-sm font-medium text-text-muted hover:border-secondary hover:text-secondary hover:bg-secondary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            >
+              <span className="flex items-center justify-center w-3.5 h-3.5 shrink-0">
+                {demoLoading === "admin" ? (
+                  <span className="w-3.5 h-3.5 rounded-full border-2 border-current border-t-transparent animate-spin block" />
+                ) : (
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                )}
+              </span>
+              Demo Admin
+            </button>
+          </div>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 mb-5">
+            <div className="flex-1 h-px bg-dark/10" />
+            <span className="text-xs text-text-muted">or login manually</span>
+            <div className="flex-1 h-px bg-dark/10" />
+          </div>
 
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -106,12 +181,12 @@ const Login = () => {
 
             <input
               type="submit"
-              className="w-full py-2 bg-primary text-white rounded-md text-xl cursor-pointer"
-              value="Login"
+              disabled={isSubmitting || !!demoLoading}
+              className="w-full py-2 bg-primary text-white rounded-md text-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              value={isSubmitting ? "Logging in..." : "Login"}
             />
           </form>
 
-          {/* ← Social login added here */}
           <SocialLogin />
 
           <div className="text-center mt-4 md:mt-6">

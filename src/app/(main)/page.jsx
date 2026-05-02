@@ -14,7 +14,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Banner upcomingShows={upcomingShows} />;
+      <Banner upcomingShows={upcomingShows} />
       <NowShowing upcomingShows={upcomingShows} />
       <UpcomingMovies upcomingMovies={upcomingMovies} />
       <Promotion />
