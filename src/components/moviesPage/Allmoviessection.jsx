@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { FiSearch, FiGrid } from "react-icons/fi";
 import { FaList } from "react-icons/fa6";
 import useMovies from "@/hooks/useMovies";
@@ -9,6 +9,7 @@ import Pagination from "@/components/shared/pagination/Pagination";
 import Spinner from "@/components/shared/loader/Spinner";
 import MovieCard from "./Moviecard";
 import MovieFilterSidebar from "./Moviefiltersidebar";
+import MovieCardSkeleton from "./MovieCardSkeleton";
 
 const SORT_OPTIONS = [
   { label: "Newest", value: "" },
@@ -21,7 +22,7 @@ const SORT_OPTIONS = [
 const ITEMS_PER_PAGE = 8;
 
 const AllMoviesSection = () => {
-  const [view, setView] = useState("grid"); // "grid" | "list"
+  const [view, setView] = useState("grid");
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
@@ -31,20 +32,44 @@ const AllMoviesSection = () => {
 
   const debounceRef = useRef(null);
 
-  // Debounce search input
-  useEffect(() => {
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+
+    setSelectedGenres([]);
+    setSelectedLanguages([]);
+    setSortValue("");
+
     clearTimeout(debounceRef.current);
     debounceRef.current = setTimeout(() => {
-      setDebouncedSearch(search);
-      setCurrentPage(1); // reset to page 1 on new search
+      setDebouncedSearch(value);
+      setCurrentPage(1);
     }, 400);
-    return () => clearTimeout(debounceRef.current);
-  }, [search]);
+  };
 
-  // Reset page when filters change
-  useEffect(() => {
+  const handleGenresChange = (genres) => {
+    setSelectedGenres(genres);
     setCurrentPage(1);
-  }, [selectedGenres, selectedLanguages, sortValue]);
+  };
+
+  const handleLanguagesChange = (languages) => {
+    setSelectedLanguages(languages);
+    setCurrentPage(1);
+  };
+
+  const handleSortChange = (e) => {
+    setSortValue(e.target.value);
+    setCurrentPage(1);
+  };
+
+  const handleReset = useCallback(() => {
+    setSelectedGenres([]);
+    setSelectedLanguages([]);
+    setSortValue("");
+    setSearch("");
+    setDebouncedSearch("");
+    setCurrentPage(1);
+  }, []);
 
   const [sortBy, order] = sortValue ? sortValue.split("|") : ["", ""];
 
@@ -57,15 +82,6 @@ const AllMoviesSection = () => {
     sortBy: sortBy || undefined,
     order: order || undefined,
   });
-
-  const handleReset = useCallback(() => {
-    setSelectedGenres([]);
-    setSelectedLanguages([]);
-    setSortValue("");
-    setSearch("");
-    setDebouncedSearch("");
-    setCurrentPage(1);
-  }, []);
 
   const totalPages = pagination?.totalPages ?? 1;
   const totalResults = pagination?.total ?? 0;
@@ -82,9 +98,9 @@ const AllMoviesSection = () => {
           {/* Sidebar */}
           <MovieFilterSidebar
             selectedGenres={selectedGenres}
-            setSelectedGenres={setSelectedGenres}
+            setSelectedGenres={handleGenresChange}
             selectedLanguages={selectedLanguages}
-            setSelectedLanguages={setSelectedLanguages}
+            setSelectedLanguages={handleLanguagesChange}
             onReset={handleReset}
           />
 
@@ -96,7 +112,7 @@ const AllMoviesSection = () => {
               <input
                 type="text"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="Search for your favorite movies, actors, or directors..."
                 className="w-full bg-[#0d1a14] border border-primary/10 rounded-xl pl-11 pr-24 py-3.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary/40 transition-colors"
               />
@@ -123,7 +139,7 @@ const AllMoviesSection = () => {
                 <div className="relative">
                   <select
                     value={sortValue}
-                    onChange={(e) => setSortValue(e.target.value)}
+                    onChange={handleSortChange}
                     className="appearance-none bg-[#0d1a14] border border-primary/15 text-white/70 text-sm rounded-lg px-4 py-2.5 pr-8 focus:outline-none focus:border-primary/40 cursor-pointer transition-colors hover:border-primary/30"
                   >
                     {SORT_OPTIONS.map((opt) => (
@@ -177,8 +193,16 @@ const AllMoviesSection = () => {
 
             {/* Loading overlay */}
             {isLoading ? (
-              <div className="flex justify-center items-center min-h-100">
-                <Spinner />
+              <div
+                className={
+                  view === "grid"
+                    ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+                    : "flex flex-col gap-4"
+                }
+              >
+                {Array.from({ length: ITEMS_PER_PAGE }).map((_, i) => (
+                  <MovieCardSkeleton key={i} view={view} />
+                ))}
               </div>
             ) : movies.length === 0 ? (
               <div className="flex flex-col items-center justify-center min-h-75 text-center">
@@ -193,7 +217,6 @@ const AllMoviesSection = () => {
               </div>
             ) : (
               <>
-                {/* Movie grid / list */}
                 <div
                   className={`relative transition-opacity duration-300 ${isFetching ? "opacity-60 pointer-events-none" : "opacity-100"}`}
                 >
@@ -212,10 +235,9 @@ const AllMoviesSection = () => {
                   )}
                 </div>
 
-                {/* Pagination */}
                 <Pagination
-                  currentPage={currentPage - 1} // Pagination uses 0-indexed
-                  setCurrentPage={(page) => setCurrentPage(page + 1)} // convert back to 1-indexed for API
+                  currentPage={currentPage - 1}
+                  setCurrentPage={(page) => setCurrentPage(page + 1)}
                   totalPage={totalPages}
                 />
               </>
