@@ -88,7 +88,8 @@ export const subscribeAuth = (callback) => {
     }
 
     try {
-      await axiosPublic.post("/auth/jwt", { email: user.email });
+      const jwtRes = await axiosPublic.post("/auth/jwt", { email: user.email });
+      console.log(jwtRes);
       const res = await axiosSecure.get("/users/me");
       const userInfo = res?.data?.data;
 
