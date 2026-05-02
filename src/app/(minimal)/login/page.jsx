@@ -26,7 +26,7 @@ const DEMO_ACCOUNTS = {
 
 const Login = () => {
   const [toggle, setToggle] = useState(false);
-  const [demoLoading, setDemoLoading] = useState(null); // "user" | "admin" | null
+  const [demoLoading, setDemoLoading] = useState(null);
   const [serverError, setServerError] = useState("");
 
   const router = useRouter();
@@ -69,8 +69,7 @@ const Login = () => {
       router.push(from);
     } catch (error) {
       console.error(`Demo login ERROR: ${error}`);
-      const msg = error.message || "Demo login failed.";
-      setServerError(msg);
+      setServerError(error.message || "Demo login failed.");
     } finally {
       setDemoLoading(null);
     }
@@ -78,29 +77,42 @@ const Login = () => {
 
   const isBusy = isSubmitting || !!demoLoading;
 
+  // Input classes — this panel is always light (white bg), so we keep
+  // text-dark and border-dark intentionally; only non-design hardcodes are swapped.
+  const inputBase =
+    "border rounded-md px-4 py-2 text-dark placeholder:text-dark/50 w-full transition-colors outline-none";
+  const inputNormal = `${inputBase} border-dark/30 focus:border-primary/60`;
+  const inputErr = `${inputBase} border-red-400 bg-red-50`;
+
   return (
     <section className="h-screen overflow-hidden md:grid md:grid-cols-2">
-      {/* Left panel */}
-      <div className="max-md:hidden relative p-6 md:p-8 xl:p-14 flex flex-col justify-between">
+      {/* ── Left panel (dark / branded) ─────────────────────────── */}
+      <div className="max-md:hidden relative p-6 md:p-8 xl:p-14 flex flex-col justify-between bg-bg-base">
         <BlurCircle top="-100px" right="-100px" />
         <Link href="/">
           <Image src={logo} className="w-32 lg:w-40" alt="logo" />
         </Link>
         <div className="max-w-2xl">
-          <p className="text-4xl md:text-5xl xl:text-6xl italic leading-relaxed font-extralight text-transparent bg-linear-to-b from-white to-white/40 bg-clip-text">
+          <p
+            className="text-4xl md:text-5xl xl:text-6xl italic leading-relaxed font-extralight bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                "linear-gradient(to bottom, var(--text-primary), color-mix(in srgb, var(--text-primary) 40%, transparent))",
+            }}
+          >
             Welcome back. Your next cinematic experience is just a click away!
           </p>
         </div>
         <BlurCircle bottom="-50px" left="-50px" />
       </div>
 
-      {/* Right panel */}
-      <div className="max-md:h-screen max-md:relative md:bg-white flex items-center justify-center p-14">
+      {/* ── Right panel (always light — intentional auth design) ── */}
+      <div className="max-md:h-screen max-md:relative bg-white flex items-center justify-center p-14">
         <div className="md:hidden">
           <BlurCircle top="-100px" right="-100px" />
         </div>
 
-        <div className="max-md:bg-white max-md:py-8 max-md:px-6 max-md:rounded-xl max-w-xl w-full">
+        <div className="max-md:py-8 max-md:px-6 max-md:rounded-xl max-w-xl w-full">
           <SectionTitle title="Welcome back" className="text-dark" />
 
           {/* Demo login buttons */}
@@ -114,7 +126,7 @@ const Login = () => {
               disabled={isBusy}
               onClick={() => handleDemoLogin("user")}
               aria-busy={demoLoading === "user"}
-              className="flex-1 flex items-center justify-center gap-2 border border-dark/20 rounded-md py-2 text-sm font-medium text-text-muted hover:border-primary hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-2 border border-dark/20 rounded-md py-2 text-sm font-medium text-text-dark/60 hover:border-primary hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <span className="flex items-center justify-center w-3.5 h-3.5 shrink-0">
                 {demoLoading === "user" ? (
@@ -131,7 +143,7 @@ const Login = () => {
               disabled={isBusy}
               onClick={() => handleDemoLogin("admin")}
               aria-busy={demoLoading === "admin"}
-              className="flex-1 flex items-center justify-center gap-2 border border-dark/20 rounded-md py-2 text-sm font-medium text-text-muted hover:border-secondary hover:text-secondary hover:bg-secondary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+              className="flex-1 flex items-center justify-center gap-2 border border-dark/20 rounded-md py-2 text-sm font-medium text-text-dark/60 hover:border-secondary hover:text-secondary hover:bg-secondary/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               <span className="flex items-center justify-center w-3.5 h-3.5 shrink-0">
                 {demoLoading === "admin" ? (
@@ -147,11 +159,11 @@ const Login = () => {
           {/* Divider */}
           <div className="flex items-center gap-3 mb-5" role="separator">
             <div className="flex-1 h-px bg-dark/10" />
-            <span className="text-xs text-text-muted">or login manually</span>
+            <span className="text-xs text-dark/40">or login manually</span>
             <div className="flex-1 h-px bg-dark/10" />
           </div>
 
-          {/* Server-side error banner */}
+          {/* Server error banner */}
           {serverError && (
             <div
               role="alert"
@@ -169,10 +181,7 @@ const Login = () => {
           >
             {/* Email */}
             <div className="flex flex-col gap-1 md:gap-2">
-              <label
-                htmlFor="login-email"
-                className="text-base text-text-muted"
-              >
+              <label htmlFor="login-email" className="text-base text-dark/60">
                 Email <span aria-hidden="true">*</span>
               </label>
               <input
@@ -184,10 +193,8 @@ const Login = () => {
                 aria-describedby={
                   errors.email ? "login-email-error" : undefined
                 }
-                className={`border rounded-md px-4 py-2 text-dark placeholder:text-dark transition-colors ${
-                  errors.email ? "border-red-400 bg-red-50" : "border-dark/50"
-                }`}
                 placeholder="Enter your email"
+                className={errors.email ? inputErr : inputNormal}
                 {...register("email", {
                   required: "Email is required.",
                   pattern: {
@@ -211,7 +218,7 @@ const Login = () => {
             <div className="flex flex-col gap-1 md:gap-2">
               <label
                 htmlFor="login-password"
-                className="text-base text-text-muted"
+                className="text-base text-dark/60"
               >
                 Password <span aria-hidden="true">*</span>
               </label>
@@ -225,12 +232,8 @@ const Login = () => {
                   aria-describedby={
                     errors.password ? "login-password-error" : undefined
                   }
-                  className={`border rounded-md px-4 py-2 text-dark placeholder:text-dark w-full transition-colors ${
-                    errors.password
-                      ? "border-red-400 bg-red-50"
-                      : "border-dark/50"
-                  }`}
                   placeholder="Enter your password"
+                  className={errors.password ? inputErr : inputNormal}
                   {...register("password", {
                     required: "Password is required.",
                     minLength: {
@@ -242,10 +245,14 @@ const Login = () => {
                 <button
                   type="button"
                   aria-label={toggle ? "Hide password" : "Show password"}
-                  className="absolute right-2.5 top-2.5 text-dark cursor-pointer"
+                  className="absolute right-2.5 top-2.5 text-dark/40 hover:text-dark transition-colors cursor-pointer"
                   onClick={() => setToggle((prev) => !prev)}
                 >
-                  {toggle ? <EyeOff /> : <Eye />}
+                  {toggle ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {errors.password && (
@@ -263,10 +270,10 @@ const Login = () => {
               type="submit"
               disabled={isBusy}
               aria-busy={isSubmitting}
-              className="w-full py-2 bg-primary text-white rounded-md text-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-opacity"
+              className="w-full py-2 bg-primary text-dark font-semibold rounded-md text-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-opacity hover:opacity-85"
             >
               {isSubmitting && (
-                <span className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin block" />
+                <span className="w-4 h-4 rounded-full border-2 border-dark border-t-transparent animate-spin block" />
               )}
               {isSubmitting ? "Logging in..." : "Login"}
             </button>
@@ -275,9 +282,9 @@ const Login = () => {
           <SocialLogin />
 
           <div className="text-center mt-4 md:mt-6">
-            <p className="text-text-muted text-sm">
+            <p className="text-dark/50 text-sm">
               Don&apos;t have an account?{" "}
-              <Link href="/register" className="text-primary">
+              <Link href="/register" className="text-primary font-medium">
                 Register !!
               </Link>
             </p>

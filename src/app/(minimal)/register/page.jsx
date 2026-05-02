@@ -26,7 +26,6 @@ const Register = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm({ mode: "onTouched" });
 
@@ -34,7 +33,6 @@ const Register = () => {
     setServerError("");
     setIsSubmitting(true);
     const { name, photo, email, password } = data;
-
     try {
       await registerUser(email, password);
       await updateUserInfo({ displayName: name, photoURL: photo });
@@ -61,16 +59,27 @@ const Register = () => {
     }
   };
 
+  const inputBase =
+    "border rounded-md px-4 py-2 text-dark placeholder:text-dark/50 w-full transition-colors outline-none";
+  const inputNormal = `${inputBase} border-dark/30 focus:border-primary/60`;
+  const inputErr = `${inputBase} border-red-400 bg-red-50`;
+
   return (
     <section className="h-screen overflow-hidden md:grid md:grid-cols-2">
-      {/* Left panel */}
-      <div className="max-md:hidden relative p-6 md:p-8 xl:p-14 flex flex-col justify-between">
+      {/* ── Left panel (dark / branded) ─────────────────────────── */}
+      <div className="max-md:hidden relative overflow-hidden p-6 md:p-8 xl:p-14 flex flex-col justify-between bg-bg-base">
         <BlurCircle top="-100px" right="-100px" />
         <Link href="/">
           <Image src={logo} className="w-32 lg:w-40" alt="logo" />
         </Link>
         <div className="max-w-2xl">
-          <p className="text-4xl md:text-5xl xl:text-6xl italic leading-relaxed font-extralight text-transparent bg-linear-to-b from-white to-white/40 bg-clip-text">
+          <p
+            className="text-4xl md:text-5xl xl:text-6xl italic leading-relaxed font-extralight bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                "linear-gradient(to bottom, var(--text-primary), color-mix(in srgb, var(--text-primary) 40%, transparent))",
+            }}
+          >
             Welcome. Begin your cinematic adventure now with our ticketing
             platform!
           </p>
@@ -78,13 +87,12 @@ const Register = () => {
         <BlurCircle bottom="-50px" left="-50px" />
       </div>
 
-      {/* Right panel */}
-      <div className="max-md:h-screen max-md:relative md:bg-white flex items-center justify-center p-14">
-        <div className="md:hidden">
-          <BlurCircle top="-100px" right="-100px" />
-        </div>
+      {/* ── Right panel (always light — intentional auth design) ── */}
+      <div className="relative overflow-hidden max-md:h-screen bg-white flex items-center justify-center p-6 md:p-14">
+        <BlurCircle top="-100px" right="-100px" />
+        <BlurCircle bottom="-50px" left="-50px" />
 
-        <div className="max-md:bg-white max-md:py-8 max-md:px-6 max-md:rounded-xl max-w-xl w-full">
+        <div className="relative z-10 max-w-xl w-full">
           <SectionTitle title="Create an account" className="text-dark" />
 
           {/* Server-side error banner */}
@@ -105,7 +113,7 @@ const Register = () => {
           >
             {/* Name */}
             <div className="flex flex-col gap-1 md:gap-2">
-              <label htmlFor="reg-name" className="text-base text-text-muted">
+              <label htmlFor="reg-name" className="text-base text-dark/60">
                 Name <span aria-hidden="true">*</span>
               </label>
               <input
@@ -115,10 +123,8 @@ const Register = () => {
                 aria-required="true"
                 aria-invalid={!!errors.name}
                 aria-describedby={errors.name ? "reg-name-error" : undefined}
-                className={`border rounded-md px-4 py-2 text-dark placeholder:text-dark transition-colors ${
-                  errors.name ? "border-red-400 bg-red-50" : "border-dark/50"
-                }`}
                 placeholder="Enter your name"
+                className={errors.name ? inputErr : inputNormal}
                 {...register("name", {
                   required: "Name is required.",
                   minLength: {
@@ -144,7 +150,7 @@ const Register = () => {
 
             {/* Photo URL */}
             <div className="flex flex-col gap-1 md:gap-2">
-              <label htmlFor="reg-photo" className="text-base text-text-muted">
+              <label htmlFor="reg-photo" className="text-base text-dark/60">
                 Photo URL <span aria-hidden="true">*</span>
               </label>
               <input
@@ -153,10 +159,8 @@ const Register = () => {
                 aria-required="true"
                 aria-invalid={!!errors.photo}
                 aria-describedby={errors.photo ? "reg-photo-error" : undefined}
-                className={`border rounded-md px-4 py-2 text-dark placeholder:text-dark transition-colors ${
-                  errors.photo ? "border-red-400 bg-red-50" : "border-dark/50"
-                }`}
                 placeholder="https://example.com/photo.jpg"
+                className={errors.photo ? inputErr : inputNormal}
                 {...register("photo", {
                   required: "Photo URL is required.",
                   pattern: {
@@ -180,7 +184,7 @@ const Register = () => {
 
             {/* Email */}
             <div className="flex flex-col gap-1 md:gap-2">
-              <label htmlFor="reg-email" className="text-base text-text-muted">
+              <label htmlFor="reg-email" className="text-base text-dark/60">
                 Email <span aria-hidden="true">*</span>
               </label>
               <input
@@ -190,10 +194,8 @@ const Register = () => {
                 aria-required="true"
                 aria-invalid={!!errors.email}
                 aria-describedby={errors.email ? "reg-email-error" : undefined}
-                className={`border rounded-md px-4 py-2 text-dark placeholder:text-dark transition-colors ${
-                  errors.email ? "border-red-400 bg-red-50" : "border-dark/50"
-                }`}
                 placeholder="Enter your email"
+                className={errors.email ? inputErr : inputNormal}
                 {...register("email", {
                   required: "Email is required.",
                   pattern: {
@@ -215,10 +217,7 @@ const Register = () => {
 
             {/* Password */}
             <div className="flex flex-col gap-1 md:gap-2">
-              <label
-                htmlFor="reg-password"
-                className="text-base text-text-muted"
-              >
+              <label htmlFor="reg-password" className="text-base text-dark/60">
                 Password <span aria-hidden="true">*</span>
               </label>
               <div className="relative">
@@ -229,12 +228,8 @@ const Register = () => {
                   aria-required="true"
                   aria-invalid={!!errors.password}
                   aria-describedby="reg-password-hint reg-password-error"
-                  className={`border rounded-md px-4 py-2 text-dark placeholder:text-dark w-full transition-colors ${
-                    errors.password
-                      ? "border-red-400 bg-red-50"
-                      : "border-dark/50"
-                  }`}
                   placeholder="Enter your password"
+                  className={errors.password ? inputErr : inputNormal}
                   {...register("password", {
                     required: "Password is required.",
                     minLength: {
@@ -251,13 +246,17 @@ const Register = () => {
                 <button
                   type="button"
                   aria-label={toggle ? "Hide password" : "Show password"}
-                  className="absolute right-2.5 top-2.5 text-dark cursor-pointer"
+                  className="absolute right-2.5 top-2.5 text-dark/40 hover:text-dark transition-colors cursor-pointer"
                   onClick={() => setToggle((prev) => !prev)}
                 >
-                  {toggle ? <EyeOff /> : <Eye />}
+                  {toggle ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
-              <p id="reg-password-hint" className="text-xs text-text-muted">
+              <p id="reg-password-hint" className="text-xs text-dark/40">
                 Min 6 characters, one uppercase letter and one number.
               </p>
               {errors.password && (
@@ -271,17 +270,16 @@ const Register = () => {
               )}
             </div>
 
-            {/* Submit button — children wrapped in a stable span to prevent
-                browser-extension DOM injection causing React hydration errors */}
+            {/* Submit */}
             <button
               type="submit"
               disabled={isSubmitting}
               aria-busy={isSubmitting}
-              className="w-full py-2 bg-primary text-white rounded-md text-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-opacity"
+              className="w-full py-2 bg-primary text-dark font-semibold rounded-md text-xl cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 transition-opacity hover:opacity-85"
             >
               <span className="flex items-center justify-center gap-2">
                 {isSubmitting && (
-                  <span className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin block" />
+                  <span className="w-4 h-4 rounded-full border-2 border-dark border-t-transparent animate-spin block" />
                 )}
                 {isSubmitting ? "Creating account..." : "Create Account"}
               </span>
@@ -291,17 +289,13 @@ const Register = () => {
           <SocialLogin />
 
           <div className="text-center mt-4 md:mt-6">
-            <p className="text-text-muted text-sm">
+            <p className="text-dark/50 text-sm">
               Already Have An Account?{" "}
-              <Link href="/login" className="text-primary">
+              <Link href="/login" className="text-primary font-medium">
                 Login !!
               </Link>
             </p>
           </div>
-        </div>
-
-        <div className="md:hidden">
-          <BlurCircle bottom="-50px" left="-50px" />
         </div>
       </div>
     </section>
