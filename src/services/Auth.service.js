@@ -4,6 +4,9 @@ import {
   signOut,
   updateProfile,
   onAuthStateChanged,
+  GoogleAuthProvider,
+  signInWithPopup,
+  updatePassword,
 } from "firebase/auth";
 
 import auth from "@/lib/firebase/firebase.config";
@@ -23,6 +26,16 @@ export const loginUser = (email, password) => {
 
 export const updateUserInfo = (info) => {
   return updateProfile(auth.currentUser, info);
+};
+
+export const loginWithGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider);
+};
+
+export const changeUserPassword = (newPassword) => {
+  const user = auth.currentUser;
+  return updatePassword(user, newPassword);
 };
 
 export const logoutUser = async () => {

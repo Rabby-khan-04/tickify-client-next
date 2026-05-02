@@ -8,11 +8,11 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
-
 import Image from "next/image";
 import { registerUser, updateUserInfo } from "@/services/Auth.service";
 import BlurCircle from "@/components/shared/blurCircle/BlurCircle";
 import axiosPublic from "@/lib/axios/axiosPublic";
+import SocialLogin from "@/components/auth/Sociallogin";
 
 const Register = () => {
   const [toggle, setToggle] = useState(false);
@@ -59,24 +59,22 @@ const Register = () => {
 
   return (
     <section className="h-screen overflow-hidden md:grid md:grid-cols-2">
+      {/* Left panel */}
       <div className="max-md:hidden relative p-6 md:p-8 xl:p-14 flex flex-col justify-between">
         <BlurCircle top="-100px" right="-100px" />
-
         <Link href="/">
-          {" "}
           <Image src={logo} className="w-32 lg:w-40" alt="logo" />
         </Link>
-
         <div className="max-w-2xl">
           <p className="text-4xl md:text-5xl xl:text-6xl italic leading-relaxed font-extralight text-transparent bg-linear-to-b from-white to-white/40 bg-clip-text">
             Welcome. Begin your cinematic adventure now with our ticketing
             platform!
           </p>
         </div>
-
         <BlurCircle bottom="-50px" left="-50px" />
       </div>
 
+      {/* Right panel */}
       <div className="max-md:h-screen max-md:relative md:bg-white flex items-center justify-center p-14">
         <div className="md:hidden">
           <BlurCircle top="-100px" right="-100px" />
@@ -134,7 +132,6 @@ const Register = () => {
             {/* Password */}
             <div className="flex flex-col gap-1 md:gap-2">
               <label className="text-base text-text-muted">Password*</label>
-
               <div className="relative">
                 <input
                   type={toggle ? "text" : "password"}
@@ -142,7 +139,6 @@ const Register = () => {
                   placeholder="Enter your password"
                   {...register("password", { required: true })}
                 />
-
                 <button
                   type="button"
                   className="absolute right-2.5 top-2.5 text-dark cursor-pointer"
@@ -151,7 +147,6 @@ const Register = () => {
                   {toggle ? <EyeOff /> : <Eye />}
                 </button>
               </div>
-
               {errors.password && (
                 <p className="text-xs text-red-500">Password is required!!</p>
               )}
@@ -163,6 +158,9 @@ const Register = () => {
               value="Create Account"
             />
           </form>
+
+          {/* ← Social login added here */}
+          <SocialLogin />
 
           <div className="text-center mt-4 md:mt-6">
             <p className="text-text-muted text-sm">
