@@ -1,4 +1,4 @@
-import UpcomingMovies from "@/components/homePage/upcomingMovies/UpcomingMovies";
+import AllMoviesSection from "@/components/moviesPage/Allmoviessection";
 import NowShowingMovies from "@/components/moviesPage/NowShowingMovies";
 import TitleBanner from "@/components/moviesPage/TitleBanner";
 import UpcomingShows from "@/components/moviesPage/UpcomingShows";
@@ -12,8 +12,9 @@ const MoviesPage = async () => {
   return (
     <>
       <TitleBanner title="Movies" />
-      <NowShowingMovies nowPlayingMovies={nowPlayingMovies} />
-      <UpcomingShows upcomingMovies={upcomingMovies} />
+      {/* <NowShowingMovies nowPlayingMovies={nowPlayingMovies} />
+      <UpcomingShows upcomingMovies={upcomingMovies} /> */}
+      <AllMoviesSection />
     </>
   );
 };

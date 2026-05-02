@@ -18,7 +18,7 @@ const BannerSlide = ({ show }) => {
 
   return (
     <div
-      className="h-[80vh] bg-cover bg-center pb-20 flex items-end"
+      className="h-[90vh] bg-cover bg-center pb-20 flex items-end"
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url(${
           process.env.NEXT_PUBLIC_TMDB_PATH
