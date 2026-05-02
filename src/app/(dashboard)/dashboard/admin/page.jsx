@@ -9,12 +9,15 @@ import {
   HiBuildingOffice2,
 } from "react-icons/hi2";
 import { HiRefresh } from "react-icons/hi";
+import { TbChartLine } from "react-icons/tb";
 import useDashboardStats from "@/hooks/usedashboardstats";
+import useDashboardCharts from "@/hooks/usedashboardcharts";
 import StatCardSkeleton from "@/components/dashboard/admin/StatCardSkeleton";
 import StatCard from "@/components/dashboard/admin/StatCard";
-import { TbChartLine } from "react-icons/tb";
+import BookingsRevenueChart from "@/components/dashboard/admin/Bookingsrevenuechart";
+import BookingStatusPieChart from "@/components/dashboard/admin/Bookingstatuspiechart";
+import GenresPieChart from "@/components/dashboard/admin/Genrespiechart";
 import theaterImg from "@/../public/image/theater-3.png";
-
 const fmt = (n) =>
   n >= 1_000_000
     ? `${(n / 1_000_000).toFixed(1)}M`
@@ -29,8 +32,32 @@ const SYSTEM_SERVICES = [
   { label: "Payment Gateway", note: "Last checked: 2 mins ago" },
 ];
 
+const ChartSkeleton = ({ height = "h-[300px]" }) => (
+  <div
+    className={`bg-[#0d1a0f] border border-primary/10 rounded-2xl p-6 ${height} animate-pulse`}
+  >
+    <div className="h-4 w-40 bg-white/5 rounded mb-2" />
+    <div className="h-3 w-24 bg-white/5 rounded mb-6" />
+    <div className="flex items-end gap-3 h-40 px-2">
+      {[60, 85, 45, 90, 70, 55].map((h, i) => (
+        <div
+          key={i}
+          className="flex-1 bg-white/5 rounded-t"
+          style={{ height: `${h}%` }}
+        />
+      ))}
+    </div>
+  </div>
+);
+
 const DashboardPage = () => {
   const { stats, isLoading, isFetching, refetch } = useDashboardStats();
+  const {
+    monthlyData,
+    statusData,
+    genreData,
+    isLoading: chartsLoading,
+  } = useDashboardCharts();
 
   const statCards = stats
     ? [
@@ -81,7 +108,7 @@ const DashboardPage = () => {
 
   return (
     <div className="min-h-screen py-10 px-6 lg:px-10">
-      {/* Header */}
+      {/* ── Header ── */}
       <div className="flex items-start justify-between mb-10 flex-wrap gap-4">
         <div>
           <h1 className="text-white text-3xl lg:text-4xl font-bold tracking-tight">
@@ -104,48 +131,55 @@ const DashboardPage = () => {
         </button>
       </div>
 
-      {/* Stat cards grid */}
+      {/* ── Stat cards ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5 mb-8">
         {isLoading
           ? [...Array(6)].map((_, i) => <StatCardSkeleton key={i} />)
           : statCards.map((card) => <StatCard key={card.label} {...card} />)}
       </div>
 
-      {/* Bottom row — Theater image card + System Status */}
+      {/* ── Charts row 1: Bar chart full width ── */}
+      <div className="mb-5">
+        {chartsLoading ? (
+          <ChartSkeleton height="h-[340px]" />
+        ) : (
+          <BookingsRevenueChart data={monthlyData} />
+        )}
+      </div>
+
+      {/* ── Charts row 2: Booking status pie + Genres pie ── */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-8">
+        {chartsLoading ? (
+          <>
+            <ChartSkeleton height="h-[260px]" />
+            <ChartSkeleton height="h-[260px]" />
+          </>
+        ) : (
+          <>
+            <BookingStatusPieChart data={statusData} />
+            <GenresPieChart data={genreData} />
+          </>
+        )}
+      </div>
+
+      {/* ── Bottom row: Theater card + System Status ── */}
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-5">
         {/* Prime Time Occupancy */}
         <div
           style={{ backgroundImage: `url(${theaterImg.src})` }}
           className="relative min-h-70 rounded-2xl overflow-hidden border border-primary/10 bg-center bg-cover bg-no-repeat"
         >
-          {/* Dark overlay cinema background */}
           <div className="absolute inset-0 bg-[#0d1a0f]/40" />
           <div
             className="absolute inset-0 opacity-20"
             style={{
               backgroundImage: `
-                repeating-linear-gradient(
-                  0deg,
-                  transparent,
-                  transparent 3px,
-                  rgba(0,255,100,0.03) 3px,
-                  rgba(0,255,100,0.03) 4px
-                ),
-                repeating-linear-gradient(
-                  90deg,
-                  transparent,
-                  transparent 60px,
-                  rgba(0,255,100,0.02) 60px,
-                  rgba(0,255,100,0.02) 61px
-                )
+                repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,255,100,0.03) 3px, rgba(0,255,100,0.03) 4px),
+                repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(0,255,100,0.02) 60px, rgba(0,255,100,0.02) 61px)
               `,
             }}
           />
-
-          {/* Screen glow at top */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-1 bg-primary/40 blur-md rounded-full" />
-
-          {/* Content overlay at bottom */}
           <div className="absolute bottom-0 left-0 right-0 p-8 bg-linear-to-t from-[#061008] via-[#061008]/80 to-transparent">
             <h3 className="text-primary text-xl font-bold mb-2">
               Prime Time Occupancy
@@ -166,9 +200,7 @@ const DashboardPage = () => {
             </span>
           </div>
 
-          <div>
-            <h3 className="text-white text-xl font-bold">System Status</h3>
-          </div>
+          <h3 className="text-white text-xl font-bold -mt-3">System Status</h3>
 
           <ul className="flex flex-col gap-0 divide-y divide-white/5">
             {SYSTEM_SERVICES.map(({ label, note }) => (
@@ -184,7 +216,6 @@ const DashboardPage = () => {
                     </p>
                   )}
                 </div>
-                {/* Green status dot with pulse */}
                 <span className="relative flex items-center justify-center w-4 h-4">
                   <span className="absolute w-3 h-3 rounded-full bg-primary/30 animate-ping" />
                   <span className="relative w-2.5 h-2.5 rounded-full bg-primary block" />
