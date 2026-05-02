@@ -21,8 +21,6 @@ const MovieFilterSidebar = ({
 }) => {
   const { genres, languages, isLoading } = useMovieFilterOptions();
 
-  console.log(genres);
-
   const toggleGenre = (name) => {
     setSelectedGenres((prev) =>
       prev.includes(name) ? prev.filter((g) => g !== name) : [...prev, name],
@@ -36,20 +34,19 @@ const MovieFilterSidebar = ({
   };
 
   return (
-    <aside className="bg-[#0d1a14] border border-primary/10 rounded-2xl p-5 min-w-50 w-full lg:w-52.5 shrink-0">
-      {/* Header */}
+    <aside className="bg-bg-surface border border-primary/10 rounded-2xl p-5 min-w-50 w-full lg:w-52.5 shrink-0">
       <div className="flex items-center justify-between mb-5">
         <div>
           <p className="text-primary text-xs font-semibold tracking-widest uppercase">
             Filters
           </p>
-          <p className="text-white/30 text-[11px] mt-0.5">
+          <p className="text-text-faint text-[11px] mt-0.5">
             Refine your search results
           </p>
         </div>
         <button
           onClick={onReset}
-          className="text-[11px] text-primary/60 hover:text-primary transition-colors uppercase tracking-wider"
+          className="text-[11px] text-primary/60 text-right hover:text-primary transition-colors uppercase tracking-wider"
         >
           Reset All
         </button>
@@ -57,7 +54,7 @@ const MovieFilterSidebar = ({
 
       {/* Genres */}
       <div className="mb-6">
-        <p className="text-white/40 text-[11px] uppercase tracking-widest mb-3 font-semibold">
+        <p className="text-text-muted text-[11px] uppercase tracking-widest mb-3 font-semibold">
           Genres
         </p>
         {isLoading ? (
@@ -65,7 +62,7 @@ const MovieFilterSidebar = ({
             {[...Array(5)].map((_, i) => (
               <div
                 key={i}
-                className="h-4 w-24 bg-white/5 rounded animate-pulse"
+                className="h-4 w-24 bg-border-subtle rounded animate-pulse"
               />
             ))}
           </div>
@@ -78,12 +75,11 @@ const MovieFilterSidebar = ({
                   <label className="flex items-center gap-2.5 cursor-pointer group">
                     <span
                       onClick={() => toggleGenre(genre.name)}
-                      className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer
-                        ${
-                          checked
-                            ? "bg-primary border-primary"
-                            : "border-white/20 bg-transparent group-hover:border-primary/50"
-                        }`}
+                      className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer ${
+                        checked
+                          ? "bg-primary border-primary"
+                          : "border-border-subtle bg-transparent group-hover:border-primary/50"
+                      }`}
                     >
                       {checked && (
                         <svg
@@ -104,11 +100,7 @@ const MovieFilterSidebar = ({
                     </span>
                     <span
                       onClick={() => toggleGenre(genre.name)}
-                      className={`text-sm transition-colors ${
-                        checked
-                          ? "text-primary"
-                          : "text-white/60 group-hover:text-white/80"
-                      }`}
+                      className={`text-sm transition-colors ${checked ? "text-primary" : "text-text-secondary group-hover:text-text-primary"}`}
                     >
                       {genre.name}
                     </span>
@@ -122,7 +114,7 @@ const MovieFilterSidebar = ({
 
       {/* Languages */}
       <div>
-        <p className="text-white/40 text-[11px] uppercase tracking-widest mb-3 font-semibold">
+        <p className="text-text-muted text-[11px] uppercase tracking-widest mb-3 font-semibold">
           Languages
         </p>
         {isLoading ? (
@@ -130,7 +122,7 @@ const MovieFilterSidebar = ({
             {[...Array(3)].map((_, i) => (
               <div
                 key={i}
-                className="h-4 w-20 bg-white/5 rounded animate-pulse"
+                className="h-4 w-20 bg-border-subtle rounded animate-pulse"
               />
             ))}
           </div>
@@ -143,12 +135,11 @@ const MovieFilterSidebar = ({
                   <label className="flex items-center gap-2.5 cursor-pointer group">
                     <span
                       onClick={() => toggleLanguage(lang)}
-                      className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer
-                        ${
-                          checked
-                            ? "bg-primary border-primary"
-                            : "border-white/20 bg-transparent group-hover:border-primary/50"
-                        }`}
+                      className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-all duration-200 cursor-pointer ${
+                        checked
+                          ? "bg-primary border-primary"
+                          : "border-border-subtle bg-transparent group-hover:border-primary/50"
+                      }`}
                     >
                       {checked && (
                         <svg
@@ -169,11 +160,7 @@ const MovieFilterSidebar = ({
                     </span>
                     <span
                       onClick={() => toggleLanguage(lang)}
-                      className={`text-sm transition-colors ${
-                        checked
-                          ? "text-primary"
-                          : "text-white/60 group-hover:text-white/80"
-                      }`}
+                      className={`text-sm transition-colors ${checked ? "text-primary" : "text-text-secondary group-hover:text-text-primary"}`}
                     >
                       {LANGUAGE_LABELS[lang] ?? lang.toUpperCase()}
                     </span>

@@ -14,7 +14,6 @@ const Pagination = ({ currentPage = 0, setCurrentPage, totalPage = 0 }) => {
   };
 
   const getVisiblePages = () => {
-    // Show max 5 pages on mobile, more on desktop handled via CSS
     const delta = 2;
     const range = [];
     const rangeWithDots = [];
@@ -27,7 +26,6 @@ const Pagination = ({ currentPage = 0, setCurrentPage, totalPage = 0 }) => {
       range.push(i);
     }
 
-    // Add first page + dots if needed
     if (range[0] > 0) {
       rangeWithDots.push(0);
       if (range[0] > 1) rangeWithDots.push("...");
@@ -35,7 +33,6 @@ const Pagination = ({ currentPage = 0, setCurrentPage, totalPage = 0 }) => {
 
     rangeWithDots.push(...range);
 
-    // Add dots + last page if needed
     if (range[range.length - 1] < totalPage - 1) {
       if (range[range.length - 1] < totalPage - 2) rangeWithDots.push("...");
       rangeWithDots.push(totalPage - 1);
@@ -50,7 +47,7 @@ const Pagination = ({ currentPage = 0, setCurrentPage, totalPage = 0 }) => {
     <div className="flex items-stretch justify-center mt-10 gap-1 sm:gap-4 flex-wrap">
       {/* Prev */}
       <button
-        className={`btn-pagination bg-primary/10 text-white ${
+        className={`btn-pagination bg-primary/10 text-text-primary ${
           currentPage === 0 ? "pointer-events-none opacity-50" : ""
         }`}
         onClick={handlePrev}
@@ -63,7 +60,7 @@ const Pagination = ({ currentPage = 0, setCurrentPage, totalPage = 0 }) => {
         item === "..." ? (
           <span
             key={`dots-${index}`}
-            className="btn-pagination bg-transparent text-white pointer-events-none"
+            className="btn-pagination bg-transparent text-text-primary pointer-events-none"
           >
             ...
           </span>
@@ -73,8 +70,8 @@ const Pagination = ({ currentPage = 0, setCurrentPage, totalPage = 0 }) => {
             onClick={() => setCurrentPage(item)}
             className={`btn-pagination ${
               currentPage === item
-                ? "bg-white text-dark"
-                : "bg-primary/10 text-white"
+                ? "bg-primary text-dark"
+                : "bg-primary/10 text-text-primary"
             }`}
           >
             {item + 1}
@@ -85,7 +82,7 @@ const Pagination = ({ currentPage = 0, setCurrentPage, totalPage = 0 }) => {
       {/* Next */}
       <button
         onClick={handleNext}
-        className={`btn-pagination bg-primary/10 text-white ${
+        className={`btn-pagination bg-primary/10 text-text-primary ${
           currentPage === totalPage - 1 ? "pointer-events-none opacity-50" : ""
         }`}
       >

@@ -47,7 +47,7 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="p-top relative z-30 overflow-x-hidden">
+    <section className="p-yaxis relative z-30 overflow-x-hidden">
       <BlurCircle top="100px" right="-200px" />
       <div className="container-fluid">
         <div className="relative">

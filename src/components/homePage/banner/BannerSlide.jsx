@@ -64,7 +64,10 @@ const BannerSlide = ({ show }) => {
               <span>Get Ticket</span>
             </Link>
 
-            <button onClick={handleTrailerClick} className="btn-ghost">
+            <button
+              onClick={handleTrailerClick}
+              className="btn-ghost btn-ghost-on-hero"
+            >
               <Play />
               <span>Trailer</span>
             </button>

@@ -3,24 +3,25 @@ const FaqItem = ({ faq, isOpen, onToggle }) => {
     <div
       onClick={onToggle}
       className={`border rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ${
-        isOpen ? "border-primary/60 bg-primary/5" : "border-white/10 bg-white/5"
+        isOpen
+          ? "border-primary/60 bg-primary/5"
+          : "border-border-subtle bg-bg-card"
       }`}
     >
       <div className="flex items-center justify-between gap-4 px-6 py-5">
         <h3
           className={`text-base font-medium transition-colors duration-300 ${
-            isOpen ? "text-primary" : "text-white"
+            isOpen ? "text-primary" : "text-text-primary"
           }`}
         >
           {faq.question}
         </h3>
 
-        {/* Icon */}
         <div
           className={`shrink-0 w-8 h-8 rounded-full border flex items-center justify-center transition-all duration-300 ${
             isOpen
               ? "bg-primary border-primary text-dark rotate-45"
-              : "bg-transparent border-white/20 text-white/60"
+              : "bg-transparent border-border-subtle text-text-muted"
           }`}
         >
           <svg
@@ -40,13 +41,12 @@ const FaqItem = ({ faq, isOpen, onToggle }) => {
         </div>
       </div>
 
-      {/* Answer — animates open/close */}
       <div
         className={`transition-all duration-300 ease-in-out ${
           isOpen ? "max-h-64 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <p className="px-6 pb-5 text-white/60 text-sm leading-relaxed">
+        <p className="px-6 pb-5 text-text-secondary text-sm leading-relaxed">
           {faq.answer}
         </p>
       </div>

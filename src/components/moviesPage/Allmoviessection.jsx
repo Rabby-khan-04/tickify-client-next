@@ -6,7 +6,6 @@ import { FaList } from "react-icons/fa6";
 import useMovies from "@/hooks/useMovies";
 
 import Pagination from "@/components/shared/pagination/Pagination";
-import Spinner from "@/components/shared/loader/Spinner";
 import MovieCard from "./Moviecard";
 import MovieFilterSidebar from "./Moviefiltersidebar";
 import MovieCardSkeleton from "./MovieCardSkeleton";
@@ -114,9 +113,9 @@ const AllMoviesSection = () => {
                 value={search}
                 onChange={handleSearchChange}
                 placeholder="Search for your favorite movies, actors, or directors..."
-                className="w-full bg-[#0d1a14] border border-primary/10 rounded-xl pl-11 pr-24 py-3.5 text-sm text-white placeholder:text-white/25 focus:outline-none focus:border-primary/40 transition-colors"
+                className="w-full bg-bg-surface border border-primary/10 rounded-xl pl-11 pr-24 py-3.5 text-sm text-text-primary placeholder:text-text-faint focus:outline-none focus:border-primary/40 transition-colors"
               />
-              <kbd className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-white/20 border border-white/10 rounded px-1.5 py-0.5 font-mono">
+              <kbd className="absolute right-4 top-1/2 -translate-y-1/2 text-[10px] text-text-faint border border-border-subtle rounded px-1.5 py-0.5 font-mono">
                 CTRL K
               </kbd>
             </div>
@@ -124,10 +123,10 @@ const AllMoviesSection = () => {
             {/* Title row */}
             <div className="flex items-start sm:items-center justify-between gap-4 flex-wrap mb-6">
               <div>
-                <h2 className="text-white text-2xl font-bold">
+                <h2 className="text-text-primary text-2xl font-bold">
                   {activeGenreLabel}
                 </h2>
-                <p className="text-white/30 text-sm mt-0.5">
+                <p className="text-text-muted text-sm mt-0.5">
                   {isLoading
                     ? "Loading..."
                     : `Showing ${totalResults} title${totalResults !== 1 ? "s" : ""} found`}
@@ -140,7 +139,7 @@ const AllMoviesSection = () => {
                   <select
                     value={sortValue}
                     onChange={handleSortChange}
-                    className="appearance-none bg-[#0d1a14] border border-primary/15 text-white/70 text-sm rounded-lg px-4 py-2.5 pr-8 focus:outline-none focus:border-primary/40 cursor-pointer transition-colors hover:border-primary/30"
+                    className="appearance-none bg-bg-surface border border-primary/15 text-text-secondary text-sm rounded-lg px-4 py-2.5 pr-8 focus:outline-none focus:border-primary/40 cursor-pointer transition-colors hover:border-primary/30"
                   >
                     {SORT_OPTIONS.map((opt) => (
                       <option key={opt.value} value={opt.value}>
@@ -149,7 +148,7 @@ const AllMoviesSection = () => {
                     ))}
                   </select>
                   <svg
-                    className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-white/30 pointer-events-none"
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3 h-3 text-text-muted pointer-events-none"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -167,11 +166,7 @@ const AllMoviesSection = () => {
                 <div className="flex border border-primary/15 rounded-lg overflow-hidden">
                   <button
                     onClick={() => setView("grid")}
-                    className={`p-2.5 transition-colors ${
-                      view === "grid"
-                        ? "bg-primary text-black"
-                        : "bg-[#0d1a14] text-white/40 hover:text-white/70"
-                    }`}
+                    className={`p-2.5 transition-colors ${view === "grid" ? "bg-primary text-black" : "bg-bg-surface text-text-muted hover:text-text-secondary"}`}
                     aria-label="Grid view"
                   >
                     <FiGrid className="w-4 h-4" />
@@ -207,7 +202,7 @@ const AllMoviesSection = () => {
             ) : movies.length === 0 ? (
               <div className="flex flex-col items-center justify-center min-h-75 text-center">
                 <span className="text-5xl mb-4">🎬</span>
-                <p className="text-white/40 text-lg">No movies found.</p>
+                <p className="text-text-muted text-lg">No movies found.</p>
                 <button
                   onClick={handleReset}
                   className="mt-4 text-primary text-sm underline hover:text-primary/70 transition-colors"

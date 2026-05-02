@@ -1,43 +1,164 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
   --color-primary: #1de782;
   --color-secondary: #8f5fab;
   --color-primary-light: #bdf0c1;
-  --color-dark: #0a020d;
-  --color-dark-light: #110519;
-  --color-text-dark: #101012;
-  --color-text-muted: #5a5a5d;
-  --color-border: #dddedf;
   --color-accent: #17c769;
   --color-inactive: #a1d9be;
   --color-disabled: #d5e5f0;
+
+  /* Semantic tokens — swap on theme change */
+  --color-bg-base: var(--bg-base);
+  --color-bg-surface: var(--bg-surface);
+  --color-bg-card: var(--bg-card);
+  --color-bg-input: var(--bg-input);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-faint: var(--text-faint);
+
+  --color-border-base: var(--border-base);
+  --color-border-subtle: var(--border-subtle);
+
+  /* Keep legacy aliases working */
+  --color-dark: #0a020d;
+  --color-dark-light: #110519;
+  --color-text-dark: #101012;
+  --color-border: var(--border-base);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a020d;
-    --foreground: #ffffff;
-  }
+/* ─── DARK THEME (default) ─────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --background: #0a020d;
+  --foreground: #ffffff;
+
+  --bg-base: #0a020d;
+  --bg-surface: #0d1a14;
+  --bg-card: #0d120e;
+  --bg-input: #080f0b;
+
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted: #5a5a5d;
+  --text-faint: rgba(255, 255, 255, 0.25);
+
+  --border-base: #dddedf;
+  --border-subtle: rgba(255, 255, 255, 0.07);
+  --border-primary-subtle: rgba(29, 231, 130, 0.1);
+
+  /* Component-level shorthands */
+  --card-bg: #0d120e;
+  --card-border: rgba(255, 255, 255, 0.07);
+  --input-bg: #080f0b;
+  --input-border: rgba(255, 255, 255, 0.1);
+  --nav-bg-scrolled: #0a020d;
+  --nav-bg-transparent: transparent;
+  --hero-overlay-start: rgba(0, 0, 0, 0.6);
+  --hero-overlay-end: rgba(0, 0, 0, 0.9);
 }
 
+[data-theme="dark"] {
+  --nav-bg-scrolled: #0a020d; /* solid dark — no blur */
+}
+
+[data-theme="light"] {
+  --nav-bg-scrolled: #ffffff; /* solid white */
+}
+
+/* ─── LIGHT THEME ───────────────────────────────────────────── */
+[data-theme="light"] {
+  --background: #f5f7f5;
+  --foreground: #0a0f0c;
+
+  --bg-base: #f5f7f5;
+  --bg-surface: #ffffff;
+  --bg-card: #ffffff;
+  --bg-input: #f0f4f1;
+
+  --text-primary: #0a0f0c;
+  --text-secondary: rgba(10, 15, 12, 0.65);
+  --text-muted: #5a6b62;
+  --text-faint: rgba(10, 15, 12, 0.3);
+
+  --border-base: #d0d7d3;
+  --border-subtle: rgba(10, 15, 12, 0.08);
+  --border-primary-subtle: rgba(29, 231, 130, 0.2);
+
+  --card-bg: #ffffff;
+  --card-border: rgba(10, 15, 12, 0.08);
+  --input-bg: #f0f4f1;
+  --input-border: rgba(10, 15, 12, 0.12);
+  --nav-bg-scrolled: #ffffff;
+  --nav-bg-transparent: rgba(245, 247, 245, 0.8);
+  --hero-overlay-start: rgba(245, 247, 245, 0.3);
+  --hero-overlay-end: rgba(245, 247, 245, 0.92);
+}
+
+/* ─── BASE STYLES ───────────────────────────────────────────── */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
+/* ─── THEME-AWARE UTILITY OVERRIDES ────────────────────────── */
+
+/* Cards / surfaces — replace hardcoded bg-[#0d1a14] and bg-[#0d120e] */
+.theme-surface {
+  background-color: var(--bg-surface);
+}
+.theme-card {
+  background-color: var(--bg-card);
+}
+.theme-input {
+  background-color: var(--bg-input);
+}
+.theme-border {
+  border-color: var(--border-subtle);
+}
+
+/* Text helpers — replace text-white/X patterns */
+.theme-text-primary {
+  color: var(--text-primary);
+}
+.theme-text-secondary {
+  color: var(--text-secondary);
+}
+.theme-text-muted {
+  color: var(--text-muted);
+}
+.theme-text-faint {
+  color: var(--text-faint);
+}
+
+/* Nav */
+.nav-scrolled {
+  background-color: var(--nav-bg-scrolled) !important;
+}
+*,
+*::before,
+*::after {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.25s;
+  transition-timing-function: ease;
+}
+
+/* Explicitly prevent global transition from touching transform */
+img {
+  transition-property: none !important;
+}
+/* ─── LAYOUT UTILS ──────────────────────────────────────────── */
 .container-fluid {
   @apply px-[5%] max-w-full w-full;
 }
+
+/* ─── BUTTONS ───────────────────────────────────────────────── */
 .btn {
   @apply bg-primary border border-primary text-dark font-medium text-base md:text-lg py-1 px-4 md:py-2 md:px-6 rounded-lg inline-block cursor-pointer text-center;
 }
@@ -51,18 +172,28 @@ body {
   @apply text-dark font-medium text-base md:text-lg py-2 md:py-3 px-5 md:px-6 rounded-xl inline-flex items-center gap-1 bg-gradient-to-r from-primary via-primary to-primary-light w-auto border border-transparent cursor-pointer;
 }
 .btn-ghost {
-  @apply text-white font-medium text-base md:text-lg py-2 md:py-3 px-5 md:px-6 rounded-xl inline-flex items-center gap-1 bg-transparent w-auto border border-white cursor-pointer;
+  @apply font-medium text-base md:text-lg py-2 md:py-3 px-5 md:px-6 rounded-xl inline-flex items-center gap-1 bg-transparent w-auto border cursor-pointer;
+  color: var(--text-primary);
+  border-color: var(--border-base);
 }
+
+.btn-ghost-on-hero {
+  @apply text-white border-white;
+}
+
 .btn-gradient-sm {
   @apply text-dark font-medium text-sm py-1 md:py-2 px-3 md:px-4 rounded-md inline-flex items-center gap-1 bg-linear-to-r from-primary via-primary to-primary-light w-auto border border-transparent cursor-pointer;
 }
 .btn-ghost-sm {
-  @apply text-white font-medium  text-sm py-1 md:py-2 px-3 md:px-4 rounded-full inline-flex items-center gap-1 bg-transparent w-auto border border-white cursor-pointer;
+  @apply font-medium text-sm py-1 md:py-2 px-3 md:px-4 rounded-full inline-flex items-center gap-1 bg-transparent w-auto border cursor-pointer;
+  color: var(--text-primary);
+  border-color: var(--border-base);
 }
+
+/* ─── MISC ──────────────────────────────────────────────────── */
 .swiper-pagination-bullet-active {
   @apply bg-primary;
 }
-
 .movie-badge {
   @apply border border-primary inline-block w-auto absolute top-6 right-6 text-sm py-1 px-3 rounded-full bg-primary/40 backdrop-blur text-primary font-bold;
 }

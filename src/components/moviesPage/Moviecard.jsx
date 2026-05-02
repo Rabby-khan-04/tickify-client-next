@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import PropTypes from "prop-types";
 
 const MovieCard = ({ movie, view = "grid" }) => {
   const {
@@ -30,7 +29,7 @@ const MovieCard = ({ movie, view = "grid" }) => {
   if (view === "list") {
     return (
       <Link href={`/movie/${movieId}`}>
-        <div className="group flex gap-4 bg-[#0d1a14] border border-primary/10 rounded-xl overflow-hidden hover:border-primary/40 transition-all duration-300">
+        <div className="group flex gap-4 bg-bg-surface border border-primary/10 rounded-xl overflow-hidden hover:border-primary/40 transition-colors duration-300">
           <div className="relative w-28 shrink-0 overflow-hidden">
             {poster_path ? (
               <Image
@@ -41,7 +40,8 @@ const MovieCard = ({ movie, view = "grid" }) => {
                 }
                 alt={title}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                style={{ transition: "transform 700ms ease" }}
+                className="object-cover w-full group-hover:scale-105"
               />
             ) : (
               <div className="absolute inset-0 bg-primary/5 flex items-center justify-center">
@@ -49,23 +49,22 @@ const MovieCard = ({ movie, view = "grid" }) => {
               </div>
             )}
           </div>
-
           <div className="flex flex-col justify-center py-4 pr-4 gap-1.5">
             {imdbScore && (
               <span className={`text-xs font-bold tracking-wide ${scoreColor}`}>
                 IMDb {imdbScore}
               </span>
             )}
-            <h3 className="text-white font-semibold text-base leading-snug group-hover:text-primary transition-colors line-clamp-1">
+            <h3 className="text-text-primary font-semibold text-base leading-snug group-hover:text-primary transition-colors line-clamp-1">
               {title}
             </h3>
-            <p className="text-white/40 text-xs uppercase tracking-wider">
+            <p className="text-text-muted text-xs uppercase tracking-wider">
               {genre}
               {runtime ? ` • ${runtime} Min` : ""}
               {year ? ` • ${year}` : ""}
             </p>
             {overview && (
-              <p className="text-white/50 text-xs line-clamp-2 mt-1 leading-relaxed">
+              <p className="text-text-secondary text-xs line-clamp-2 mt-1 leading-relaxed">
                 {overview}
               </p>
             )}
@@ -75,11 +74,9 @@ const MovieCard = ({ movie, view = "grid" }) => {
     );
   }
 
-  // Grid view
   return (
     <Link href={`/movie/${movieId}`}>
-      <div className="group relative bg-[#0d1a14] border border-primary/10 rounded-2xl overflow-hidden hover:border-primary/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,255,120,0.12)]">
-        {/* Poster */}
+      <div className="group relative bg-bg-surface border border-primary/10 rounded-2xl overflow-hidden hover:border-primary/40 hover:-translate-y-1 hover:shadow-[0_8px_30px_rgba(0,255,120,0.12)] [transition:transform_300ms_ease,box-shadow_300ms_ease,border-color_300ms_ease]">
         <div className="relative aspect-2/3 overflow-hidden">
           {poster_path ? (
             <Image
@@ -90,7 +87,8 @@ const MovieCard = ({ movie, view = "grid" }) => {
               }
               alt={title}
               fill
-              className="object-cover w-full group-hover:scale-105 transition-transform duration-700"
+              style={{ transition: "transform 500ms ease" }}
+              className="object-cover group-hover"
             />
           ) : (
             <div className="absolute inset-0 bg-linear-to-b from-primary/5 to-transparent flex items-center justify-center">
@@ -99,7 +97,7 @@ const MovieCard = ({ movie, view = "grid" }) => {
           )}
 
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-linear-to-t from-[#0d1a14] via-transparent to-transparent opacity-80" />
+          <div className="absolute inset-0 bg-linear-to-t from-bg-surface via-transparent to-transparent opacity-80" />
 
           {/* IMDb badge */}
           {imdbScore && (
@@ -111,36 +109,22 @@ const MovieCard = ({ movie, view = "grid" }) => {
           )}
         </div>
 
-        {/* Info */}
         <div className="p-4">
           <p className="text-primary/60 text-[11px] uppercase tracking-widest mb-1.5">
             {genre}
             {runtime ? ` • ${runtime} Min` : ""}
           </p>
-          <h3 className="text-white font-semibold text-base leading-snug group-hover:text-primary transition-colors line-clamp-1">
+          <h3 className="text-text-primary font-semibold text-base leading-snug group-hover:text-primary transition-colors line-clamp-1">
             {title}
           </h3>
-          {overview ? (
-            <p className="text-white/40 text-xs mt-2 line-clamp-2 leading-relaxed">
-              {overview}
-            </p>
-          ) : (
-            <p className="text-white/50 text-xs line-clamp-2 mt-1 leading-relaxed">
-              A movie is a visual storytelling medium combining narrative,
-              performance, sound, and cinematography to entertain, inspire
-              emotions, and communicate ideas across cultures and audiences
-              worldwide.
-            </p>
-          )}
+          <p className="text-text-secondary text-xs mt-2 line-clamp-2 leading-relaxed">
+            {overview ||
+              "A movie is a visual storytelling medium combining narrative, performance, sound, and cinematography to entertain, inspire emotions, and communicate ideas across cultures and audiences worldwide."}
+          </p>
         </div>
       </div>
     </Link>
   );
-};
-
-MovieCard.propTypes = {
-  movie: PropTypes.object.isRequired,
-  view: PropTypes.oneOf(["grid", "list"]),
 };
 
 export default MovieCard;
